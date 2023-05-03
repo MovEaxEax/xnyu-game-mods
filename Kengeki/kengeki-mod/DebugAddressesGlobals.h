@@ -12,11 +12,9 @@ struct DebugAddressParent {
     std::vector<DebugAddress> addresses;
 };
 
-BasePointer PlayerPositionX;
-BasePointer PlayerPositionY;
-BasePointer PlayerPositionZ;
-BasePointer PlayerHP;
-BasePointer PlayerMana;
-
+BasePointer PlayerObjectBasepointer;
+BasePointer CameraObjectBasepointer;
+BasePointer GameGlobalsBasepointer;
 BasePointer BossHP;
 
+void* IsGamePausedAddress;

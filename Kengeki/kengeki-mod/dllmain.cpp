@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "xNyuLibrary.h"
 
-EXTERN_DLL_EXPORT void __cdecl OnInitDebugMod(DebugSettings _globalSettings, DebugFeatures* _features, void* _logger, void* _drawRectangle, void* _drawText)
+EXTERN_DLL_EXPORT void __cdecl OnInitDebugMod(DebugSettings _globalSettings, DebugFeatures* _features, void* _logger, void* _drawRectangle, void* _drawText, void* _TASRoutine)
 {
 	//
 	// Standard initialization sequence, copy all debugaddress/function if needed, take settings and loggger and draw funtion pointers
@@ -22,37 +22,73 @@ EXTERN_DLL_EXPORT void __cdecl OnInitDebugMod(DebugSettings _globalSettings, Deb
 
 	std::memcpy(_features, &features, sizeof(DebugFeatures));
 
-	if (GlobalSettings.config_version == "v1")
+	pTASRoutine = (TASRoutineT) _TASRoutine;
+	
+	if (GlobalSettings.config_version == "v1.0")
 	{
 		InitDebugAddressV1();
+		InitDebugFunctionsV1();
 	}
 
-	if (GlobalSettings.config_version == "v2")
+	if (GlobalSettings.config_version == "v1.2")
 	{
 		InitDebugAddressV2();
+		InitDebugFunctionsV2();
 	}
 
-	GodModeHPAddress.nameFull = "Player.HP";
-	GodModeHPAddress.value = Variable();
-	GodModeHPAddress.value.value = "300";
-	GodModeHPAddress.value.type = "int32";
-
-	GodModeMPAddress.nameFull = "Player.Mana";
-	GodModeMPAddress.value = Variable();
-	GodModeMPAddress.value.value = "3000";
-	GodModeMPAddress.value.type = "int32";
+	GetMemoryRegions(memoryRegionsStart, memoryRegionsEnd, &memoryRegionsCounter);
 }
 
 EXTERN_DLL_EXPORT void OnFrameDebugMod()
 {
-	if (!GodmodeInit)
+	boolBuffer = DbgReadPointer(PlayerObjectBasepointer, &pointerBuffer);
+	SetPlayerObjectInstance(pointerBuffer, boolBuffer);
+	boolBuffer = DbgReadPointer(CameraObjectBasepointer, &pointerBuffer);
+	SetCameraObjectInstance(pointerBuffer, boolBuffer);
+	boolBuffer = DbgReadPointer(GameGlobalsBasepointer, &pointerBuffer);
+	SetGameGlobalsInstance(pointerBuffer, boolBuffer);
+
+	if (IsPlayerObjectInstance())
 	{
-		SetDebugAddressValue(&GodModeHPAddress);
-		SetDebugAddressValue(&GodModeMPAddress);
-		pDebugDrawRectangle(1800, 800, 20, 20, ColorBlack, 0.9f);
-		pDebugDrawText("G", 1810, 82, FontSmallMedium, ColorWhite, 1.0f, "center");
+		if (GodmodeActivated)
+		{
+			Variable GodModeValue;
+			GodModeValue.type = "int32";
+			GodModeValue.value = "5000";
+			SetPlayerHP(GetVariableInt32(&GodModeValue));
+			SetPlayerEnergy(GetVariableInt32(&GodModeValue));
+			SetPlayerSpellcardBar(GetVariableInt32(&GodModeValue));
+			pDebugDrawRectangle(1800, 800, 20, 20, ColorBlack, 0.9f);
+			pDebugDrawText("G", 1810, 802, FontSmallMedium, ColorWhite, 1.0f, "center");
+		}
+
+		if (LockPositionX) SetPlayerPositionX(PlayerPositionXLocked);
+		if (LockPositionY) SetPlayerPositionY(PlayerPositionYLocked);
+		if (LockPositionZ) SetPlayerPositionZ(PlayerPositionZLocked);
+		if (LockDirection) SetPlayerDirection(PlayerDirectionLocked);
+		if (LockSpeedFactorX) SetPlayerSpeedFactorX(PlayerSpeedFactorXLocked);
+		if (LockSpeedFactorY) SetPlayerSpeedFactorX(PlayerSpeedFactorYLocked);
+		if (LockSpeedFactorZ) SetPlayerSpeedFactorX(PlayerSpeedFactorZLocked);
+		if (LockAnimationIndex) SetPlayerAnimationIndex(PlayerAnimationIndexLocked);
 	}
 
+	if (IsCameraObjectInstance())
+	{
+		if (LockCameraPositionX) SetCameraPositionX(CameraPositionXLocked);
+		if (LockCameraPositionY) SetCameraPositionY(CameraPositionYLocked);
+		if (LockCameraPositionZ) SetCameraPositionZ(CameraPositionZLocked);
+		if (LockCameraAngleX) SetCameraAngleX(CameraAngleXLocked);
+		if (LockCameraAngleY) SetCameraAngleY(CameraAngleYLocked);
+		if (LockCameraAngleZ) SetCameraAngleZ(CameraAngleZLocked);
+		if (LockCameraZoom) SetCameraZoom(CameraZoomLocked);
+	}
+
+	if (updateSettingsFrameskip >= 120)
+	{
+		GetMemoryRegions(memoryRegionsStart, memoryRegionsEnd, &memoryRegionsCounter);
+		updateSettingsFrameskip = 0;
+	}
+	updateSettingsFrameskip++;
 }
 
 EXTERN_DLL_EXPORT void OnExitDebugMod()

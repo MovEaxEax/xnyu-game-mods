@@ -31,6 +31,12 @@
     <Filter Include="Headerdateien\globals">
       <UniqueIdentifier>{4e45e079-bf82-4e97-9bb9-be8e5bb32709}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Headerdateien\v1\structs">
+      <UniqueIdentifier>{a136dfa1-3bc1-4761-83a7-4749213ac94b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headerdateien\v2\structs">
+      <UniqueIdentifier>{1337570b-aa1d-4523-b31a-1fb84331e584}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -89,6 +95,42 @@
     </ClInclude>
     <ClInclude Include="DebugFunctionsV2.h">
       <Filter>Headerdateien\v2</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerObjectV2.h">
+      <Filter>Headerdateien\v2\structs</Filter>
+    </ClInclude>
+    <ClInclude Include="CameraObjectV1.h">
+      <Filter>Headerdateien\v1\structs</Filter>
+    </ClInclude>
+    <ClInclude Include="CameraObjectV2.h">
+      <Filter>Headerdateien\v2\structs</Filter>
+    </ClInclude>
+    <ClInclude Include="EmptyObjectV1.h">
+      <Filter>Headerdateien\v1\structs</Filter>
+    </ClInclude>
+    <ClInclude Include="EmptyObjectV2.h">
+      <Filter>Headerdateien\v2\structs</Filter>
+    </ClInclude>
+    <ClInclude Include="KengekiObjects.h">
+      <Filter>Headerdateien\features</Filter>
+    </ClInclude>
+    <ClInclude Include="GameGlobalsV1.h">
+      <Filter>Headerdateien\v1\structs</Filter>
+    </ClInclude>
+    <ClInclude Include="GameGlobalsV2.h">
+      <Filter>Headerdateien\v2\structs</Filter>
+    </ClInclude>
+    <ClInclude Include="DebugFunctionsGlobals.h">
+      <Filter>Headerdateien\globals</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerObjectV1.h">
+      <Filter>Headerdateien\v1\structs</Filter>
+    </ClInclude>
+    <ClInclude Include="SavefileV1.h">
+      <Filter>Headerdateien\v1\structs</Filter>
+    </ClInclude>
+    <ClInclude Include="SavefileV2.h">
+      <Filter>Headerdateien\v2\structs</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

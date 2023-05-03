@@ -5,10 +5,14 @@ void _DbgWriteFloatBS()
 {
 	__try
 	{
-		DbgResolveBasePointer();
-		void* finalAddress = ret._void_ptr;
-		std::memcpy(finalAddress, par._src, sizeof(float));
-		ret._success = true;
+		ret._success = false;
+		DbgResolveBasePointerSafe();
+		if (ret._void_ptr != nullptr)
+		{
+			void* finalAddress = ret._void_ptr;
+			std::memcpy(finalAddress, par._src, sizeof(float));
+			ret._success = true;
+		}
 	}
 	__except (EXCEPTION_EXECUTE_HANDLER)
 	{
@@ -33,10 +37,14 @@ void _DbgWriteFloatBV()
 {
 	__try
 	{
-		DbgResolveBasePointer();
-		void* finalAddress = ret._void_ptr;
-		std::memcpy(finalAddress, &par._float_value, sizeof(float));
-		ret._success = true;
+		ret._success = false;
+		DbgResolveBasePointerSafe();
+		if (ret._void_ptr != nullptr)
+		{
+			void* finalAddress = ret._void_ptr;
+			std::memcpy(finalAddress, &par._float_value, sizeof(float));
+			ret._success = true;
+		}
 	}
 	__except (EXCEPTION_EXECUTE_HANDLER)
 	{
@@ -94,10 +102,14 @@ void _DbgWriteDoubleBS()
 {
 	__try
 	{
-		DbgResolveBasePointer();
-		void* finalAddress = ret._void_ptr;
-		std::memcpy(finalAddress, par._src, sizeof(double));
-		ret._success = true;
+		ret._success = false;
+		DbgResolveBasePointerSafe();
+		if (ret._void_ptr != nullptr)
+		{
+			void* finalAddress = ret._void_ptr;
+			std::memcpy(finalAddress, par._src, sizeof(double));
+			ret._success = true;
+		}
 	}
 	__except (EXCEPTION_EXECUTE_HANDLER)
 	{
@@ -122,10 +134,14 @@ void _DbgWriteDoubleBV()
 {
 	__try
 	{
-		DbgResolveBasePointer();
-		void* finalAddress = ret._void_ptr;
-		std::memcpy(finalAddress, &par._double_value, sizeof(double));
-		ret._success = true;
+		ret._success = false;
+		DbgResolveBasePointerSafe();
+		if (ret._void_ptr != nullptr)
+		{
+			void* finalAddress = ret._void_ptr;
+			std::memcpy(finalAddress, &par._double_value, sizeof(double));
+			ret._success = true;
+		}
 	}
 	__except (EXCEPTION_EXECUTE_HANDLER)
 	{
@@ -183,10 +199,14 @@ void _DbgWriteInt32BS()
 {
 	__try
 	{
-		DbgResolveBasePointer();
-		void* finalAddress = ret._void_ptr;
-		std::memcpy(finalAddress, par._src, sizeof(int));
-		ret._success = true;
+		ret._success = false;
+		DbgResolveBasePointerSafe();
+		if (ret._void_ptr != nullptr)
+		{
+			void* finalAddress = ret._void_ptr;
+			std::memcpy(finalAddress, par._src, sizeof(int));
+			ret._success = true;
+		}
 	}
 	__except (EXCEPTION_EXECUTE_HANDLER)
 	{
@@ -211,10 +231,14 @@ void _DbgWriteInt32BV()
 {
 	__try
 	{
-		DbgResolveBasePointer();
-		void* finalAddress = ret._void_ptr;
-		std::memcpy(finalAddress, &par._int32_value, sizeof(int));
-		ret._success = true;
+		ret._success = false;
+		DbgResolveBasePointerSafe();
+		if (ret._void_ptr != nullptr)
+		{
+			void* finalAddress = ret._void_ptr;
+			std::memcpy(finalAddress, &par._int32_value, sizeof(int));
+			ret._success = true;
+		}
 	}
 	__except (EXCEPTION_EXECUTE_HANDLER)
 	{
@@ -272,10 +296,14 @@ void _DbgWriteInt64BS()
 {
 	__try
 	{
-		DbgResolveBasePointer();
-		void* finalAddress = ret._void_ptr;
-		std::memcpy(finalAddress, par._src, sizeof(long long));
-		ret._success = true;
+		ret._success = false;
+		DbgResolveBasePointerSafe();
+		if (ret._void_ptr != nullptr)
+		{
+			void* finalAddress = ret._void_ptr;
+			std::memcpy(finalAddress, par._src, sizeof(long long));
+			ret._success = true;
+		}
 	}
 	__except (EXCEPTION_EXECUTE_HANDLER)
 	{
@@ -300,10 +328,14 @@ void _DbgWriteInt64BV()
 {
 	__try
 	{
-		DbgResolveBasePointer();
-		void* finalAddress = ret._void_ptr;
-		std::memcpy(finalAddress, &par._int64_value, sizeof(long long));
-		ret._success = true;
+		ret._success = false;
+		DbgResolveBasePointerSafe();
+		if (ret._void_ptr != nullptr)
+		{
+			void* finalAddress = ret._void_ptr;
+			std::memcpy(finalAddress, &par._int64_value, sizeof(long long));
+			ret._success = true;
+		}
 	}
 	__except (EXCEPTION_EXECUTE_HANDLER)
 	{
@@ -361,12 +393,16 @@ void _DbgWriteStringBS()
 {
 	__try
 	{
-		DbgResolveBasePointer();
-		void* finalAddress = ret._void_ptr;
-		std::memcpy(finalAddress, par._src, par._size);
-		char terminator = 0x00;
-		std::memcpy((void*)((long long)finalAddress + (long long)par._size), &terminator, 1);
-		ret._success = true;
+		ret._success = false;
+		DbgResolveBasePointerSafe();
+		if (ret._void_ptr != nullptr)
+		{
+			void* finalAddress = ret._void_ptr;
+			std::memcpy(finalAddress, par._src, par._size);
+			char terminator = 0x00;
+			std::memcpy((void*)((long long)finalAddress + (long long)par._size), &terminator, 1);
+			ret._success = true;
+		}
 	}
 	__except (EXCEPTION_EXECUTE_HANDLER)
 	{
@@ -393,10 +429,14 @@ void _DbgWriteStringBV()
 {
 	__try
 	{
-		DbgResolveBasePointer();
-		void* finalAddress = ret._void_ptr;
-		std::memcpy(finalAddress, par._string_value.c_str(), par._string_value.size());
-		ret._success = true;
+		ret._success = false;
+		DbgResolveBasePointerSafe();
+		if (ret._void_ptr != nullptr)
+		{
+			void* finalAddress = ret._void_ptr;
+			std::memcpy(finalAddress, par._string_value.c_str(), par._string_value.size());
+			ret._success = true;
+		}
 	}
 	__except (EXCEPTION_EXECUTE_HANDLER)
 	{
@@ -456,10 +496,14 @@ void _DbgWriteBoolBS()
 {
 	__try
 	{
-		DbgResolveBasePointer();
-		void* finalAddress = ret._void_ptr;
-		std::memcpy(finalAddress, par._src, sizeof(bool));
-		ret._success = true;
+		ret._success = false;
+		DbgResolveBasePointerSafe();
+		if (ret._void_ptr != nullptr)
+		{
+			void* finalAddress = ret._void_ptr;
+			std::memcpy(finalAddress, par._src, sizeof(bool));
+			ret._success = true;
+		}
 	}
 	__except (EXCEPTION_EXECUTE_HANDLER)
 	{
@@ -484,10 +528,14 @@ void _DbgWriteBoolBV()
 {
 	__try
 	{
-		DbgResolveBasePointer();
-		void* finalAddress = ret._void_ptr;
-		std::memcpy(finalAddress, &par._bool_value, sizeof(bool));
-		ret._success = true;
+		ret._success = false;
+		DbgResolveBasePointerSafe();
+		if (ret._void_ptr != nullptr)
+		{
+			void* finalAddress = ret._void_ptr;
+			std::memcpy(finalAddress, &par._bool_value, sizeof(bool));
+			ret._success = true;
+		}
 	}
 	__except (EXCEPTION_EXECUTE_HANDLER)
 	{
@@ -545,10 +593,14 @@ void _DbgWriteByteBS()
 {
 	__try
 	{
-		DbgResolveBasePointer();
-		void* finalAddress = ret._void_ptr;
-		std::memcpy(finalAddress, par._src, 1);
-		ret._success = true;
+		ret._success = false;
+		DbgResolveBasePointerSafe();
+		if (ret._void_ptr != nullptr)
+		{
+			void* finalAddress = ret._void_ptr;
+			std::memcpy(finalAddress, par._src, 1);
+			ret._success = true;
+		}
 	}
 	__except (EXCEPTION_EXECUTE_HANDLER)
 	{
@@ -573,10 +625,14 @@ void _DbgWriteByteBV()
 {
 	__try
 	{
-		DbgResolveBasePointer();
-		void* finalAddress = ret._void_ptr;
-		std::memcpy(finalAddress, &par._byte_value, 1);
-		ret._success = true;
+		ret._success = false;
+		DbgResolveBasePointerSafe();
+		if (ret._void_ptr != nullptr)
+		{
+			void* finalAddress = ret._void_ptr;
+			std::memcpy(finalAddress, &par._byte_value, 1);
+			ret._success = true;
+		}
 	}
 	__except (EXCEPTION_EXECUTE_HANDLER)
 	{
@@ -634,10 +690,14 @@ void _DbgWriteBytesBS()
 {
 	__try
 	{
-		DbgResolveBasePointer();
-		void* finalAddress = ret._void_ptr;
-		std::memcpy(finalAddress, par._src, par._amount);
-		ret._success = true;
+		ret._success = false;
+		DbgResolveBasePointerSafe();
+		if (ret._void_ptr != nullptr)
+		{
+			void* finalAddress = ret._void_ptr;
+			std::memcpy(finalAddress, par._src, par._amount);
+			ret._success = true;
+		}
 	}
 	__except (EXCEPTION_EXECUTE_HANDLER)
 	{

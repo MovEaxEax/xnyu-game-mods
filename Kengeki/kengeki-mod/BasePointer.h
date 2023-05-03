@@ -23,6 +23,7 @@ struct ReturnValue
 struct ParameterValue
 {
 	BasePointer _basepointer;
+	int _basepointerOffsetSize;
 	void* _address;
 	void* _dst;
 	void* _src;
@@ -42,17 +43,46 @@ struct ParameterValue
 ReturnValue ret;
 ParameterValue par;
 
-void DbgResolveBasePointer()
+
+
+
+bool IsValidMemoryAddress(uintptr_t address, uintptr_t* srcMemory, uintptr_t* dstMemory, int memoryCounter)
+{
+	for (int i = 0; i < memoryCounter; i++)
+	{
+		if (address >= srcMemory[i] && address <= (dstMemory[i] - sizeof(uintptr_t)))
+		{
+			return true;
+		}
+	}
+	return false;
+}
+
+void DbgResolveBasePointerUnsafe()
 {
 	__try
 	{
-		void* finalAddress = par._basepointer.baseAddress;
-		for (int i = 0; i < par._basepointer.offsets.size(); i++)
+		uintptr_t finalAddress = reinterpret_cast<uintptr_t>(par._basepointer.baseAddress);
+		if (!IsValidMemoryAddress(finalAddress, memoryRegionsStart, memoryRegionsEnd, memoryRegionsCounter))
 		{
-			std::memcpy(finalAddress, finalAddress, sizeof(void*));
-			finalAddress = (void*)((long long)finalAddress + (long long)par._basepointer.offsets[i]);
+			ret._void_ptr = nullptr;
+			return;
 		}
-		ret._void_ptr = finalAddress;
+		finalAddress = *reinterpret_cast<uintptr_t*>(finalAddress);
+		for (int i = 0; i < par._basepointerOffsetSize; i++)
+		{
+			finalAddress += reinterpret_cast<uintptr_t>(par._basepointer.offsets[i]);
+			if (!IsValidMemoryAddress(finalAddress, memoryRegionsStart, memoryRegionsEnd, memoryRegionsCounter))
+			{
+				ret._void_ptr = nullptr;
+				return;
+			}
+			if (i + 1 < par._basepointerOffsetSize)
+			{
+				finalAddress = *reinterpret_cast<uintptr_t*>(finalAddress);
+			}
+		}
+		ret._void_ptr = reinterpret_cast<void*>(finalAddress);
 	}
 	__except (EXCEPTION_EXECUTE_HANDLER)
 	{
@@ -60,6 +90,36 @@ void DbgResolveBasePointer()
 	}
 }
 
-
+void DbgResolveBasePointerSafe()
+{
+	__try
+	{
+		uintptr_t finalAddress = reinterpret_cast<uintptr_t>(par._basepointer.baseAddress);
+		if (!IsValidMemoryAddress(finalAddress, memoryRegionsStart, memoryRegionsEnd, memoryRegionsCounter))
+		{
+			ret._void_ptr = nullptr;
+			return;
+		}
+		finalAddress = *reinterpret_cast<uintptr_t*>(finalAddress);
+		for (int i = 0; i < par._basepointerOffsetSize; i++)
+		{
+			finalAddress += reinterpret_cast<uintptr_t>(par._basepointer.offsets[i]);
+			if (i + 1 < par._basepointerOffsetSize)
+			{
+				if (!IsValidMemoryAddress(finalAddress, memoryRegionsStart, memoryRegionsEnd, memoryRegionsCounter))
+				{
+					ret._void_ptr = nullptr;
+					return;
+				}
+				finalAddress = *reinterpret_cast<uintptr_t*>(finalAddress);
+			}
+		}
+		ret._void_ptr = reinterpret_cast<void*>(finalAddress);
+	}
+	__except (EXCEPTION_EXECUTE_HANDLER)
+	{
+		ret._void_ptr = nullptr;
+	}
+}
 
 

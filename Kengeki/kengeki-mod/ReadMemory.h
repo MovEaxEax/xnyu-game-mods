@@ -1,14 +1,67 @@
 #pragma once
 
+// POINTER
+void _DbgReadPointerBD()
+{
+	__try
+	{
+		ret._success = false;
+		DbgResolveBasePointerSafe();
+		void* finalAddress = ret._void_ptr;
+		if (ret._void_ptr != nullptr)
+		{
+			std::memcpy(par._dst, &finalAddress, sizeof(void*));
+			ret._success = true;
+		}
+	}
+	__except (EXCEPTION_EXECUTE_HANDLER)
+	{
+		ret._success = false;
+	}
+}
+
+void _DbgReadPointerB()
+{
+	__try
+	{
+		DbgResolveBasePointerSafe();
+	}
+	__except (EXCEPTION_EXECUTE_HANDLER)
+	{
+		ret._void_ptr = nullptr;
+	}
+}
+
+bool DbgReadPointer(BasePointer address, void** dst)
+{
+	par._basepointer = address;
+	par._basepointerOffsetSize = address.offsets.size();
+	par._dst = dst;
+	_DbgReadPointerBD();
+	return ret._success;
+}
+
+void* DbgReadPointer(BasePointer address)
+{
+	par._basepointer = address;
+	par._basepointerOffsetSize = address.offsets.size();
+	_DbgReadPointerB();
+	return ret._void_ptr;
+}
+
 // FLOAT
 void _DbgReadFloatBD()
 {
 	__try
 	{
-		DbgResolveBasePointer();
+		ret._success = false;
+		DbgResolveBasePointerSafe();
 		void* finalAddress = ret._void_ptr;
-		std::memcpy(par._dst, finalAddress, sizeof(float));
-		ret._success = true;
+		if (finalAddress != nullptr)
+		{
+			std::memcpy(par._dst, finalAddress, sizeof(float));
+			ret._success = true;
+		}
 	}
 	__except (EXCEPTION_EXECUTE_HANDLER)
 	{
@@ -33,11 +86,14 @@ void _DbgReadFloatB()
 {
 	__try
 	{
-		DbgResolveBasePointer();
+		DbgResolveBasePointerSafe();
 		void* finalAddress = ret._void_ptr;
-		float dst;
-		std::memcpy(&dst, finalAddress, sizeof(float));
-		ret._float_value = dst;
+		if (ret._void_ptr != nullptr)
+		{
+			float dst;
+			std::memcpy(&dst, finalAddress, sizeof(float));
+			ret._float_value = dst;
+		}
 	}
 	__except (EXCEPTION_EXECUTE_HANDLER)
 	{
@@ -62,6 +118,7 @@ void _DbgReadFloatA()
 bool DbgReadFloat(BasePointer address, void* dst)
 {
 	par._basepointer = address;
+	par._basepointerOffsetSize = address.offsets.size();
 	par._dst = dst;
 	_DbgReadFloatBD();
 	return ret._success;
@@ -78,6 +135,7 @@ bool DbgReadFloat(void* address, void* dst)
 float DbgReadFloat(BasePointer address)
 {
 	par._basepointer = address;
+	par._basepointerOffsetSize = address.offsets.size();
 	_DbgReadFloatB();
 	return ret._float_value;
 }
@@ -94,10 +152,14 @@ void _DbgReadDoubleBD()
 {
 	__try
 	{
-		DbgResolveBasePointer();
+		ret._success = false;
+		DbgResolveBasePointerSafe();
 		void* finalAddress = ret._void_ptr;
-		std::memcpy(par._dst, finalAddress, sizeof(double));
-		ret._success = true;
+		if (ret._void_ptr != nullptr)
+		{
+			std::memcpy(par._dst, finalAddress, sizeof(double));
+			ret._success = true;
+		}
 	}
 	__except (EXCEPTION_EXECUTE_HANDLER)
 	{
@@ -122,11 +184,14 @@ void _DbgReadDoubleB()
 {
 	__try
 	{
-		DbgResolveBasePointer();
+		DbgResolveBasePointerSafe();
 		void* finalAddress = ret._void_ptr;
-		double dst;
-		std::memcpy(&dst, finalAddress, sizeof(double));
-		ret._double_value = dst;
+		if (ret._void_ptr != nullptr)
+		{
+			double dst;
+			std::memcpy(&dst, finalAddress, sizeof(double));
+			ret._double_value = dst;
+		}
 	}
 	__except (EXCEPTION_EXECUTE_HANDLER)
 	{
@@ -151,6 +216,7 @@ void _DbgReadDoubleA()
 bool DbgReadDouble(BasePointer address, void* dst)
 {
 	par._basepointer = address;
+	par._basepointerOffsetSize = address.offsets.size();
 	par._dst = dst;
 	_DbgReadDoubleBD();
 	return ret._success;
@@ -167,6 +233,7 @@ bool DbgReadDouble(void* address, void* dst)
 double DbgReadDouble(BasePointer address)
 {
 	par._basepointer = address;
+	par._basepointerOffsetSize = address.offsets.size();
 	_DbgReadDoubleB();
 	return ret._double_value;
 }
@@ -183,10 +250,14 @@ void _DbgReadInt32BD()
 {
 	__try
 	{
-		DbgResolveBasePointer();
-		void* finalAddress = ret._void_ptr;
-		std::memcpy(par._dst, finalAddress, sizeof(int));
-		ret._success = true;
+		ret._success = false;
+		DbgResolveBasePointerSafe();
+		if (ret._void_ptr != nullptr)
+		{
+			void* finalAddress = ret._void_ptr;
+			std::memcpy(par._dst, finalAddress, sizeof(int));
+			ret._success = true;
+		}
 	}
 	__except (EXCEPTION_EXECUTE_HANDLER)
 	{
@@ -211,11 +282,14 @@ void _DbgReadInt32B()
 {
 	__try
 	{
-		DbgResolveBasePointer();
-		void* finalAddress = ret._void_ptr;
-		int dst;
-		std::memcpy(&dst, finalAddress, sizeof(int));
-		ret._int32_value = dst;
+		DbgResolveBasePointerSafe();
+		if (ret._void_ptr != nullptr)
+		{
+			void* finalAddress = ret._void_ptr;
+			int dst;
+			std::memcpy(&dst, finalAddress, sizeof(int));
+			ret._int32_value = dst;
+		}
 	}
 	__except (EXCEPTION_EXECUTE_HANDLER)
 	{
@@ -240,6 +314,7 @@ void _DbgReadInt32A()
 bool DbgReadInt32(BasePointer address, void* dst)
 {
 	par._basepointer = address;
+	par._basepointerOffsetSize = address.offsets.size();
 	par._dst = dst;
 	_DbgReadInt32BD();
 	return ret._success;
@@ -256,6 +331,7 @@ bool DbgReadInt32(void* address, void* dst)
 int DbgReadInt32(BasePointer address)
 {
 	par._basepointer = address;
+	par._basepointerOffsetSize = address.offsets.size();
 	_DbgReadInt32B();
 	return ret._int32_value;
 }
@@ -272,10 +348,14 @@ void _DbgReadInt64BD()
 {
 	__try
 	{
-		DbgResolveBasePointer();
-		void* finalAddress = ret._void_ptr;
-		std::memcpy(par._dst, finalAddress, sizeof(long long));
-		ret._success = true;
+		ret._success = false;
+		DbgResolveBasePointerSafe();
+		if (ret._void_ptr != nullptr)
+		{
+			void* finalAddress = ret._void_ptr;
+			std::memcpy(par._dst, finalAddress, sizeof(long long));
+			ret._success = true;
+		}
 	}
 	__except (EXCEPTION_EXECUTE_HANDLER)
 	{
@@ -300,11 +380,14 @@ void _DbgReadInt64B()
 {
 	__try
 	{
-		DbgResolveBasePointer();
-		void* finalAddress = ret._void_ptr;
-		long long dst = 0;
-		std::memcpy(&dst, finalAddress, sizeof(long long));
-		ret._int64_value = dst;
+		DbgResolveBasePointerSafe();
+		if (ret._void_ptr != nullptr)
+		{
+			void* finalAddress = ret._void_ptr;
+			long long dst = 0;
+			std::memcpy(&dst, finalAddress, sizeof(long long));
+			ret._int64_value = dst;
+		}
 	}
 	__except (EXCEPTION_EXECUTE_HANDLER)
 	{
@@ -329,6 +412,7 @@ void _DbgReadInt64A()
 bool DbgReadInt64(BasePointer address, void* dst)
 {
 	par._basepointer = address;
+	par._basepointerOffsetSize = address.offsets.size();
 	par._dst = dst;
 	_DbgReadInt64BD();
 	return ret._success;
@@ -345,6 +429,7 @@ bool DbgReadInt64(void* address, void* dst)
 long long DbgReadInt64(BasePointer address)
 {
 	par._basepointer = address;
+	par._basepointerOffsetSize = address.offsets.size();
 	_DbgReadInt64B();
 	return ret._int64_value;
 }
@@ -361,16 +446,20 @@ void _DbgReadStringBD()
 {
 	__try
 	{
-		DbgResolveBasePointer();
-		void* finalAddress = ret._void_ptr;
-		int index = 0;
-		while (true)
+		ret._success = false;
+		DbgResolveBasePointerSafe();
+		if (ret._void_ptr != nullptr)
 		{
-			std::memcpy((void*)((long long)par._dst + (long long)index), (void*)((long long)finalAddress + (long long)index), 1);
-			if (((char*)par._dst)[index] == 0x00) break;
-			index++;
+			void* finalAddress = ret._void_ptr;
+			int index = 0;
+			while (true)
+			{
+				std::memcpy((void*)((long long)par._dst + (long long)index), (void*)((long long)finalAddress + (long long)index), 1);
+				if (((char*)par._dst)[index] == 0x00) break;
+				index++;
+			}
+			ret._success = true;
 		}
-		ret._success = true;
 	}
 	__except (EXCEPTION_EXECUTE_HANDLER)
 	{
@@ -401,18 +490,21 @@ void _DbgReadStringB()
 {
 	__try
 	{
-		DbgResolveBasePointer();
-		void* finalAddress = ret._void_ptr;
-		int index = 0;
-		char* buffer = new char[2048];
-		while (true)
+		DbgResolveBasePointerSafe();
+		if (ret._void_ptr != nullptr)
 		{
-			std::memcpy((void*)((long long)buffer + (long long)index), (void*)((long long)finalAddress + (long long)index), 1);
-			if (buffer[index] == 0x00) break;
-			index++;
+			void* finalAddress = ret._void_ptr;
+			int index = 0;
+			char* buffer = new char[2048];
+			while (true)
+			{
+				std::memcpy((void*)((long long)buffer + (long long)index), (void*)((long long)finalAddress + (long long)index), 1);
+				if (buffer[index] == 0x00) break;
+				index++;
+			}
+			ret._string_value.assign(buffer, sizeof(buffer));
+			free(buffer);
 		}
-		ret._string_value.assign(buffer, sizeof(buffer));
-		free(buffer);
 	}
 	__except (EXCEPTION_EXECUTE_HANDLER)
 	{
@@ -444,6 +536,7 @@ void _DbgReadStringA()
 bool DbgReadString(BasePointer address, void* dst)
 {
 	par._basepointer = address;
+	par._basepointerOffsetSize = address.offsets.size();
 	par._dst = dst;
 	_DbgReadStringBD();
 	return ret._success;
@@ -460,6 +553,7 @@ bool DbgReadString(void* address, void* dst)
 std::string DbgReadString(BasePointer address)
 {
 	par._basepointer = address;
+	par._basepointerOffsetSize = address.offsets.size();
 	_DbgReadStringB();
 	return ret._string_value;
 }
@@ -476,10 +570,14 @@ void _DbgReadBoolBD()
 {
 	__try
 	{
-		DbgResolveBasePointer();
-		void* finalAddress = ret._void_ptr;
-		std::memcpy(par._dst, finalAddress, sizeof(bool));
-		ret._success = true;
+		ret._success = false;
+		DbgResolveBasePointerSafe();
+		if (ret._void_ptr != nullptr)
+		{
+			void* finalAddress = ret._void_ptr;
+			std::memcpy(par._dst, finalAddress, sizeof(bool));
+			ret._success = true;
+		}
 	}
 	__except (EXCEPTION_EXECUTE_HANDLER)
 	{
@@ -504,11 +602,15 @@ void _DbgReadBoolB()
 {
 	__try
 	{
-		DbgResolveBasePointer();
-		void* finalAddress = ret._void_ptr;
-		bool dst;
-		std::memcpy(&dst, finalAddress, sizeof(bool));
-		ret._bool_value = dst;
+		ret._bool_value = false;
+		DbgResolveBasePointerSafe();
+		if (ret._void_ptr != nullptr)
+		{
+			void* finalAddress = ret._void_ptr;
+			bool dst;
+			std::memcpy(&dst, finalAddress, sizeof(bool));
+			ret._bool_value = dst;
+		}
 	}
 	__except (EXCEPTION_EXECUTE_HANDLER)
 	{
@@ -533,6 +635,7 @@ void _DbgReadBoolA()
 bool DbgReadBool(BasePointer address, void* dst)
 {
 	par._basepointer = address;
+	par._basepointerOffsetSize = address.offsets.size();
 	par._dst = dst;
 	_DbgReadBoolBD();
 	return ret._success;
@@ -549,6 +652,7 @@ bool DbgReadBool(void* address, void* dst)
 bool DbgReadBool(BasePointer address)
 {
 	par._basepointer = address;
+	par._basepointerOffsetSize = address.offsets.size();
 	_DbgReadBoolB();
 	return ret._bool_value;
 }
@@ -565,10 +669,14 @@ void _DbgReadByteBD()
 {
 	__try
 	{
-		DbgResolveBasePointer();
-		void* finalAddress = ret._void_ptr;
-		std::memcpy(par._dst, finalAddress, 1);
-		ret._success = true;
+		ret._success = false;
+		DbgResolveBasePointerSafe();
+		if (ret._void_ptr != nullptr)
+		{
+			void* finalAddress = ret._void_ptr;
+			std::memcpy(par._dst, finalAddress, 1);
+			ret._success = true;
+		}
 	}
 	__except (EXCEPTION_EXECUTE_HANDLER)
 	{
@@ -593,11 +701,14 @@ void _DbgReadByteB()
 {
 	__try
 	{
-		DbgResolveBasePointer();
-		void* finalAddress = ret._void_ptr;
-		BYTE dst;
-		std::memcpy(&dst, finalAddress, 1);
-		ret._byte_value = dst;
+		DbgResolveBasePointerSafe();
+		if (ret._void_ptr != nullptr)
+		{
+			void* finalAddress = ret._void_ptr;
+			BYTE dst;
+			std::memcpy(&dst, finalAddress, 1);
+			ret._byte_value = dst;
+		}
 	}
 	__except (EXCEPTION_EXECUTE_HANDLER)
 	{
@@ -622,6 +733,7 @@ void _DbgReadByteA()
 bool DbgReadByte(BasePointer address, void* dst)
 {
 	par._basepointer = address;
+	par._basepointerOffsetSize = address.offsets.size();
 	par._dst = dst;
 	_DbgReadByteBD();
 	return ret._success;
@@ -638,6 +750,7 @@ bool DbgReadByte(void* address, void* dst)
 BYTE DbgReadByte(BasePointer address)
 {
 	par._basepointer = address;
+	par._basepointerOffsetSize = address.offsets.size();
 	_DbgReadByteB();
 	return ret._byte_value;
 }
@@ -654,10 +767,14 @@ void _DbgReadBytesBD()
 {
 	__try
 	{
-		DbgResolveBasePointer();
-		void* finalAddress = ret._void_ptr;
-		std::memcpy(par._dst, finalAddress, par._amount);
-		ret._success = true;
+		ret._success = false;
+		DbgResolveBasePointerSafe();
+		if (ret._void_ptr != nullptr)
+		{
+			void* finalAddress = ret._void_ptr;
+			std::memcpy(par._dst, finalAddress, par._amount);
+			ret._success = true;
+		}
 	}
 	__except (EXCEPTION_EXECUTE_HANDLER)
 	{
@@ -682,11 +799,14 @@ void _DbgReadBytesB()
 {
 	__try
 	{
-		DbgResolveBasePointer();
-		void* finalAddress = ret._void_ptr;
-		BYTE* dst = new BYTE[par._amount];
-		std::memcpy(&dst, finalAddress, par._amount);
-		ret._byte_ptr = dst;
+		DbgResolveBasePointerSafe();
+		if (ret._void_ptr != nullptr)
+		{
+			void* finalAddress = ret._void_ptr;
+			BYTE* dst = new BYTE[par._amount];
+			std::memcpy(&dst, finalAddress, par._amount);
+			ret._byte_ptr = dst;
+		}
 	}
 	__except (EXCEPTION_EXECUTE_HANDLER)
 	{
@@ -711,6 +831,7 @@ void _DbgReadBytesA()
 bool DbgReadBytes(BasePointer address, void* dst, int amount)
 {
 	par._basepointer = address;
+	par._basepointerOffsetSize = address.offsets.size();
 	par._dst = dst;
 	par._amount = amount;
 	_DbgReadBytesBD();
@@ -729,6 +850,7 @@ bool DbgReadBytes(void* address, void* dst, int amount)
 BYTE* DbgReadBytes(BasePointer address, int amount)
 {
 	par._basepointer = address;
+	par._basepointerOffsetSize = address.offsets.size();
 	par._amount = amount;
 	_DbgReadBytesB();
 	return ret._byte_ptr;

@@ -71,11 +71,14 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;_DEBUG;XNYUDEBUGADRESSTEMPLATE_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;XNYUDEBUGADRESSTEMPLATE_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
@@ -151,8 +154,20 @@
     <ClInclude Include="DebugAddressesV1.h" />
     <ClInclude Include="DebugAddressesV2.h" />
     <ClInclude Include="DebugFunctionsV1.h" />
+    <ClInclude Include="CameraObjectV1.h" />
+    <ClInclude Include="CameraObjectV2.h" />
+    <ClInclude Include="EmptyObjectV1.h" />
+    <ClInclude Include="EmptyObjectV2.h" />
+    <ClInclude Include="GameGlobalsV2.h" />
+    <ClInclude Include="GameGlobalsV1.h" />
+    <ClInclude Include="DebugFunctionsGlobals.h" />
+    <ClInclude Include="SavefileV1.h" />
+    <ClInclude Include="KengekiObjects.h" />
+    <ClInclude Include="PlayerObjectV1.h" />
+    <ClInclude Include="PlayerObjectV2.h" />
     <ClInclude Include="ReadMemory.h" />
     <ClInclude Include="SavefileEditor.h" />
+    <ClInclude Include="SavefileV2.h" />
     <ClInclude Include="SigScan.h" />
     <ClInclude Include="Supervision.h" />
     <ClInclude Include="Typedefs.h" />

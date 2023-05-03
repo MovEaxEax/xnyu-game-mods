@@ -2,43 +2,24 @@
 
 void InitDebugAddressV1()
 {
-	HMODULE KengekiBaseAddress = GetModuleHandle(NULL);
+	pDebugConsoleOutput("Using V1 Addresses!", false, "red");
 
-	PlayerPositionX.baseAddress = (void*)((long long)KengekiBaseAddress + 0x3EB5BC);
-	PlayerPositionX.offsets.push_back((void*)0x18);
-	PlayerPositionX.offsets.push_back((void*)0x4);
-	PlayerPositionX.offsets.push_back((void*)0xC80);
-	PlayerPositionX.offsets.push_back((void*)0x3C);
+	PlayerObjectBasepointer.baseAddress = (void*)((long long)GameBaseAddress + 0x3EB5BC);
+	PlayerObjectBasepointer.offsets.push_back((void*)0x18);
+	PlayerObjectBasepointer.offsets.push_back((void*)0x4);
+	PlayerObjectBasepointer.offsets.push_back((void*)0xC80);
+	PlayerObjectBasepointer.offsets.push_back((void*)0x0);
 
-	PlayerPositionY.baseAddress = (void*)((long long)KengekiBaseAddress + 0x3EB5BC);
-	PlayerPositionY.offsets.push_back((void*)0x18);
-	PlayerPositionY.offsets.push_back((void*)0x4);
-	PlayerPositionY.offsets.push_back((void*)0xC80);
-	PlayerPositionY.offsets.push_back((void*)0x44);
+	CameraObjectBasepointer.baseAddress = (void*)((long long)GameBaseAddress + 0x3ECE48);
+	CameraObjectBasepointer.offsets.push_back((void*)0xC);
+	CameraObjectBasepointer.offsets.push_back((void*)0x0);
+	CameraObjectBasepointer.offsets.push_back((void*)0x8);
+	CameraObjectBasepointer.offsets.push_back((void*)0x0);
 
-	PlayerPositionZ.baseAddress = (void*)((long long)KengekiBaseAddress + 0x3EB5BC);
-	PlayerPositionZ.offsets.push_back((void*)0x18);
-	PlayerPositionZ.offsets.push_back((void*)0x4);
-	PlayerPositionZ.offsets.push_back((void*)0xC80);
-	PlayerPositionZ.offsets.push_back((void*)0x40);
+	GameGlobalsBasepointer.baseAddress = (void*)((long long)GameBaseAddress + 0x3ECE48);
+	GameGlobalsBasepointer.offsets.push_back((void*)0x0);
 
-	PlayerHP.baseAddress = (void*)((long long)KengekiBaseAddress + 0x3EB5BC);
-	PlayerHP.offsets.push_back((void*)0x18);
-	PlayerHP.offsets.push_back((void*)0x4);
-	PlayerHP.offsets.push_back((void*)0xC80);
-	PlayerHP.offsets.push_back((void*)0x2A8);
-
-	PlayerMana.baseAddress = (void*)((long long)KengekiBaseAddress + 0x3EB5BC);
-	PlayerMana.offsets.push_back((void*)0x18);
-	PlayerMana.offsets.push_back((void*)0x4);
-	PlayerMana.offsets.push_back((void*)0xC80);
-	PlayerMana.offsets.push_back((void*)0x400);
-
-	BossHP.baseAddress = (void*)((long long)KengekiBaseAddress + 0x3EB6A0);
-	BossHP.offsets.push_back((void*)0x2A8);
-	BossHP.offsets.push_back((void*)0x8);
-	BossHP.offsets.push_back((void*)0x0);
-	BossHP.offsets.push_back((void*)0x194);
+	IsGamePausedAddress = (void*)((long long)GameBaseAddress + 0x3EB428);
 
 }
 
