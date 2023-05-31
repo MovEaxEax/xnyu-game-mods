@@ -79,7 +79,7 @@ EXTERN_DLL_EXPORT void __cdecl LoadSavefile(SavefileParent* savefileParent)
     }
 }
 
-EXTERN_DLL_EXPORT void __cdecl SaveSavefile(SavefileParent* savefileParent)
+EXTERN_DLL_EXPORT void __cdecl UpdateSavefile(SavefileParent* savefileParent)
 {
 
     //

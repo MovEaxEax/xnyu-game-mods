@@ -71,12 +71,15 @@ bool parameterValid(DebugFunction* targetFunction)
 
 EXTERN_DLL_EXPORT void ExecuteDebugFunction(DebugFunction* targetFunction)
 {
+	std::string name = targetFunction->nameFull;
+	std::transform(name.begin(), name.end(), name.begin(), ::tolower);
+
 	bool vaild = parameterValid(targetFunction);
 
 	if (IsPlayerObjectInstance())
 	{
-		if (targetFunction->nameFull == "Hacks.Godmode") GodmodeActivated = !GodmodeActivated;
-		if (targetFunction->nameFull == "Player.SetPosition" && vaild)
+		if (name == "hacks.godmode") GodmodeActivated = !GodmodeActivated;
+		if (name == "player.setposition" && vaild)
 		{
 			SetPlayerPositionX(GetVariableFloat(&targetFunction->parameter[0]));
 			SetPlayerPositionY(GetVariableFloat(&targetFunction->parameter[1]));
@@ -85,7 +88,7 @@ EXTERN_DLL_EXPORT void ExecuteDebugFunction(DebugFunction* targetFunction)
 			if (LockPositionY) PlayerPositionYLocked = GetPlayerPositionY();
 			if (LockPositionZ) PlayerPositionZLocked = GetPlayerPositionZ();
 		}
-		if (targetFunction->nameFull == "Player.ChangePosition" && vaild)
+		if (name == "player.changePosition" && vaild)
 		{
 			SetPlayerPositionX(GetPlayerPositionX() + GetVariableFloat(&targetFunction->parameter[0]));
 			SetPlayerPositionY(GetPlayerPositionY() + GetVariableFloat(&targetFunction->parameter[1]));
@@ -94,25 +97,25 @@ EXTERN_DLL_EXPORT void ExecuteDebugFunction(DebugFunction* targetFunction)
 			if (LockPositionY) PlayerPositionYLocked = GetPlayerPositionY();
 			if (LockPositionZ) PlayerPositionZLocked = GetPlayerPositionZ();
 		}
-		if (targetFunction->nameFull == "Player.ChangePositionX" && vaild)
+		if (name == "player.changepositionx" && vaild)
 		{
 			SetPlayerPositionX(GetPlayerPositionX() + GetVariableFloat(&targetFunction->parameter[0]));
 			if (LockPositionX) PlayerPositionXLocked = GetPlayerPositionX();
 		}
-		if (targetFunction->nameFull == "Player.ChangePositionY" && vaild)
+		if (name == "player.changepositiony" && vaild)
 		{
 			SetPlayerPositionY(GetPlayerPositionY() + GetVariableFloat(&targetFunction->parameter[0]));
 			if (LockPositionY) PlayerPositionYLocked = GetPlayerPositionY();
 		}
-		if (targetFunction->nameFull == "Player.ChangePositionZ" && vaild)
+		if (name == "player.changepositionz" && vaild)
 		{
 			SetPlayerPositionZ(GetPlayerPositionZ() + GetVariableFloat(&targetFunction->parameter[0]));
 			if (LockPositionZ) PlayerPositionZLocked = GetPlayerPositionZ();
 		}
-		if (targetFunction->nameFull == "Player.SetHP" && vaild) SetPlayerHP(GetVariableInt32(&targetFunction->parameter[0]));
-		if (targetFunction->nameFull == "Player.SetEnergy" && vaild) SetPlayerEnergy(GetVariableInt32(&targetFunction->parameter[0]));
-		if (targetFunction->nameFull == "Player.SetSpellcardBar" && vaild) SetPlayerSpellcardBar(GetVariableInt32(&targetFunction->parameter[0]));
-		if (targetFunction->nameFull == "Player.SetSpeedFactor" && vaild)
+		if (name == "player.sethp" && vaild) SetPlayerHP(GetVariableInt32(&targetFunction->parameter[0]));
+		if (name == "player.setenergy" && vaild) SetPlayerEnergy(GetVariableInt32(&targetFunction->parameter[0]));
+		if (name == "player.setspellcardbar" && vaild) SetPlayerSpellcardBar(GetVariableInt32(&targetFunction->parameter[0]));
+		if (name == "player.setspeedfactor" && vaild)
 		{
 			SetPlayerSpeedFactorX(GetVariableFloat(&targetFunction->parameter[0]));
 			SetPlayerSpeedFactorY(GetVariableFloat(&targetFunction->parameter[1]));
@@ -121,38 +124,38 @@ EXTERN_DLL_EXPORT void ExecuteDebugFunction(DebugFunction* targetFunction)
 			if (LockSpeedFactorY) PlayerSpeedFactorYLocked = GetPlayerSpeedFactorY();
 			if (LockSpeedFactorZ) PlayerSpeedFactorZLocked = GetPlayerSpeedFactorZ();
 		}
-		if (targetFunction->nameFull == "Player.ChangeSpeedFactorX" && vaild)
+		if (name == "player.changespeedfactorx" && vaild)
 		{
 			SetPlayerSpeedFactorX(GetPlayerSpeedFactorX() + GetVariableFloat(&targetFunction->parameter[0]));
 			if (LockSpeedFactorX) PlayerSpeedFactorXLocked = GetPlayerSpeedFactorX();
 		}
-		if (targetFunction->nameFull == "Player.ChangeSpeedFactorY" && vaild)
+		if (name == "player.changespeedfactory" && vaild)
 		{
 			SetPlayerSpeedFactorY(GetPlayerSpeedFactorY() + GetVariableFloat(&targetFunction->parameter[0]));
 			if (LockSpeedFactorY) PlayerSpeedFactorYLocked = GetPlayerSpeedFactorY();
 		}
-		if (targetFunction->nameFull == "Player.ChangeSpeedFactorZ" && vaild)
+		if (name == "player.changespeedfactorz" && vaild)
 		{
 			SetPlayerSpeedFactorZ(GetPlayerSpeedFactorZ() + GetVariableFloat(&targetFunction->parameter[0]));
 			if (LockSpeedFactorZ) PlayerSpeedFactorZLocked = GetPlayerSpeedFactorZ();
 		}
-		if (targetFunction->nameFull == "Player.SetAnimationIndex" && vaild)
+		if (name == "player.setanimationindex" && vaild)
 		{
 			SetPlayerAnimationIndex(GetVariableInt32(&targetFunction->parameter[0]));
 			if (LockAnimationIndex) PlayerAnimationIndexLocked = GetPlayerAnimationIndex();
 		}
-		if (targetFunction->nameFull == "Player.SetDirection" && vaild)
+		if (name == "player.setdirection" && vaild)
 		{
 			SetPlayerDirection(GetVariableFloat(&targetFunction->parameter[0]));
 			if (LockDirection) PlayerDirectionLocked = GetPlayerDirection();
 		}
-		if (targetFunction->nameFull == "Player.ChangeDirection" && vaild)
+		if (name == "player.changedirection" && vaild)
 		{
 			SetPlayerDirection(GetPlayerDirection() + GetVariableFloat(&targetFunction->parameter[0]));
 			if (LockDirection) PlayerDirectionLocked = GetPlayerDirection();
 		}
 
-		if (targetFunction->nameFull == "Player.LockPosition")
+		if (name == "player.lockposition")
 		{
 			bool trigger = !LockPositions;
 			if (vaild)
@@ -170,21 +173,21 @@ EXTERN_DLL_EXPORT void ExecuteDebugFunction(DebugFunction* targetFunction)
 				PlayerPositionZLocked = GetPlayerPositionZ();
 			}
 		}
-		if (targetFunction->nameFull == "Player.LockPositionX")
+		if (name == "player.lockpositionx")
 		{
 			bool triggerX = !LockPositionX;
 			if (vaild) triggerX = GetVariableBool(&targetFunction->parameter[0]);
 			LockPositionX = triggerX;
 			if (triggerX) PlayerPositionXLocked = GetPlayerPositionX();
 		}
-		if (targetFunction->nameFull == "Player.LockPositionY")
+		if (name == "player.lockpositiony")
 		{
 			bool triggerY = !LockPositionY;
 			if (vaild) triggerY = GetVariableBool(&targetFunction->parameter[0]);
 			LockPositionY = triggerY;
 			if (triggerY) PlayerPositionYLocked = GetPlayerPositionY();
 		}
-		if (targetFunction->nameFull == "Player.LockPositionZ")
+		if (name == "player.lockpositionz")
 		{
 			bool triggerZ = !LockPositionZ;
 			if (vaild) triggerZ = GetVariableBool(&targetFunction->parameter[0]);
@@ -192,7 +195,7 @@ EXTERN_DLL_EXPORT void ExecuteDebugFunction(DebugFunction* targetFunction)
 			if (triggerZ) PlayerPositionZLocked = GetPlayerPositionZ();
 		}
 
-		if (targetFunction->nameFull == "Player.LockSpeedFactor")
+		if (name == "player.lockspeedfactor")
 		{
 			bool trigger = !LockSpeedFactors;
 			if (vaild)
@@ -210,21 +213,21 @@ EXTERN_DLL_EXPORT void ExecuteDebugFunction(DebugFunction* targetFunction)
 				PlayerSpeedFactorZLocked = GetPlayerSpeedFactorZ();
 			}
 		}
-		if (targetFunction->nameFull == "Player.LockSpeedFactorX")
+		if (name == "player.lockspeedfactorx")
 		{
 			bool triggerX = !LockSpeedFactorX;
 			if (vaild) triggerX = GetVariableBool(&targetFunction->parameter[0]);
 			LockSpeedFactorX = triggerX;
 			if (triggerX) PlayerSpeedFactorXLocked = GetPlayerSpeedFactorX();
 		}
-		if (targetFunction->nameFull == "Player.LockSpeedFactorY")
+		if (name == "player.lockspeedfactory")
 		{
 			bool triggerY = !LockSpeedFactorY;
 			if (vaild) triggerY = GetVariableBool(&targetFunction->parameter[0]);
 			LockSpeedFactorY = triggerY;
 			if (triggerY) PlayerSpeedFactorYLocked = GetPlayerSpeedFactorY();
 		}
-		if (targetFunction->nameFull == "Player.LockSpeedFactorZ")
+		if (name == "player.lockspeedfactorz")
 		{
 			bool triggerZ = !LockSpeedFactorZ;
 			if (vaild) triggerZ = GetVariableBool(&targetFunction->parameter[0]);
@@ -232,7 +235,7 @@ EXTERN_DLL_EXPORT void ExecuteDebugFunction(DebugFunction* targetFunction)
 			if (triggerZ) PlayerSpeedFactorZLocked = GetPlayerSpeedFactorZ();
 		}
 
-		if (targetFunction->nameFull == "Player.LockDirection")
+		if (name == "player.lockdirection")
 		{
 			bool trigger = !LockDirection;
 			if (vaild) trigger = GetVariableBool(&targetFunction->parameter[0]);
@@ -240,7 +243,7 @@ EXTERN_DLL_EXPORT void ExecuteDebugFunction(DebugFunction* targetFunction)
 			if (trigger) PlayerDirectionLocked = GetPlayerDirection();
 		}
 
-		if (targetFunction->nameFull == "Player.LockAnimationIndex")
+		if (name == "player.lockanimationindex")
 		{
 			bool trigger = !LockAnimationIndex;
 			if (vaild) trigger = GetVariableBool(&targetFunction->parameter[0]);
@@ -248,7 +251,7 @@ EXTERN_DLL_EXPORT void ExecuteDebugFunction(DebugFunction* targetFunction)
 			if (trigger) PlayerAnimationIndexLocked = GetPlayerAnimationIndex();
 		}
 
-		if (targetFunction->nameFull == "Squirrel.SharedSetPosition" && vaild)
+		if (name == "squirrel.sharedsetposition" && vaild)
 		{
 			float position[3] = { GetVariableFloat(&targetFunction->parameter[0]), GetVariableFloat(&targetFunction->parameter[1]), GetVariableFloat(&targetFunction->parameter[2]) };
 			pSharedSetPosition(playerObjectV1, position);
@@ -258,7 +261,7 @@ EXTERN_DLL_EXPORT void ExecuteDebugFunction(DebugFunction* targetFunction)
 
 	if (IsCameraObjectInstance())
 	{
-		if (targetFunction->nameFull == "Camera.SetPosition" && vaild)
+		if (name == "camera.setposition" && vaild)
 		{
 			SetCameraPositionX(GetVariableFloat(&targetFunction->parameter[0]));
 			SetCameraPositionY(GetVariableFloat(&targetFunction->parameter[1]));
@@ -267,7 +270,7 @@ EXTERN_DLL_EXPORT void ExecuteDebugFunction(DebugFunction* targetFunction)
 			if (LockCameraPositionY) CameraPositionYLocked = GetCameraPositionY();
 			if (LockCameraPositionZ) CameraPositionZLocked = GetCameraPositionZ();
 		}
-		if (targetFunction->nameFull == "Camera.ChangePosition" && vaild)
+		if (name == "camera.changeposition" && vaild)
 		{
 			SetCameraPositionX(GetCameraPositionX() + GetVariableFloat(&targetFunction->parameter[0]));
 			SetCameraPositionY(GetCameraPositionY() + GetVariableFloat(&targetFunction->parameter[1]));
@@ -276,22 +279,22 @@ EXTERN_DLL_EXPORT void ExecuteDebugFunction(DebugFunction* targetFunction)
 			if (LockCameraPositionY) CameraPositionYLocked = GetCameraPositionY();
 			if (LockCameraPositionZ) CameraPositionZLocked = GetCameraPositionZ();
 		}
-		if (targetFunction->nameFull == "Camera.ChangePositionX" && vaild)
+		if (name == "camera.changepositionx" && vaild)
 		{
 			SetCameraPositionX(GetCameraPositionX() + GetVariableFloat(&targetFunction->parameter[0]));
 			if (LockCameraPositionX) CameraPositionXLocked = GetCameraPositionX();
 		}
-		if (targetFunction->nameFull == "Camera.ChangePositionY" && vaild)
+		if (name == "camera.changepositiony" && vaild)
 		{
 			SetCameraPositionY(GetCameraPositionY() + GetVariableFloat(&targetFunction->parameter[0]));
 			if (LockCameraPositionY) CameraPositionYLocked = GetCameraPositionY();
 		}
-		if (targetFunction->nameFull == "Camera.ChangePositionZ" && vaild)
+		if (name == "camera.changepositionz" && vaild)
 		{
 			SetCameraPositionZ(GetCameraPositionZ() + GetVariableFloat(&targetFunction->parameter[0]));
 			if (LockCameraPositionZ) CameraPositionZLocked = GetCameraPositionZ();
 		}
-		if (targetFunction->nameFull == "Camera.LockPosition")
+		if (name == "camera.lockposition")
 		{
 			bool trigger = !LockCameraPositions;
 			if (vaild)
@@ -309,21 +312,21 @@ EXTERN_DLL_EXPORT void ExecuteDebugFunction(DebugFunction* targetFunction)
 				CameraPositionZLocked = GetCameraPositionZ();
 			}
 		}
-		if (targetFunction->nameFull == "Camera.LockPositionX")
+		if (name == "camera.lockpositionx")
 		{
 			bool triggerX = !LockCameraPositionX;
 			if (vaild) triggerX = GetVariableBool(&targetFunction->parameter[0]);
 			LockCameraPositionX = triggerX;
 			if (triggerX) CameraPositionXLocked = GetCameraPositionX();
 		}
-		if (targetFunction->nameFull == "Camera.LockPositionY")
+		if (name == "camera.lockpositiony")
 		{
 			bool triggerY = !LockCameraPositionY;
 			if (vaild) triggerY = GetVariableBool(&targetFunction->parameter[0]);
 			LockCameraPositionY = triggerY;
 			if (triggerY) CameraPositionYLocked = GetCameraPositionY();
 		}
-		if (targetFunction->nameFull == "Camera.LockPositionZ")
+		if (name == "camera.lockpositionz")
 		{
 			bool triggerZ = !LockCameraPositionZ;
 			if (vaild) triggerZ = GetVariableBool(&targetFunction->parameter[0]);
@@ -331,7 +334,7 @@ EXTERN_DLL_EXPORT void ExecuteDebugFunction(DebugFunction* targetFunction)
 			if (triggerZ) CameraPositionZLocked = GetCameraPositionZ();
 		}
 
-		if (targetFunction->nameFull == "Camera.SetAngle" && vaild)
+		if (name == "camera.setangle" && vaild)
 		{
 			SetCameraAngleX(GetVariableFloat(&targetFunction->parameter[0]));
 			SetCameraAngleY(GetVariableFloat(&targetFunction->parameter[1]));
@@ -340,7 +343,7 @@ EXTERN_DLL_EXPORT void ExecuteDebugFunction(DebugFunction* targetFunction)
 			if (LockCameraAngleY) CameraAngleYLocked = GetCameraAngleY();
 			if (LockCameraAngleZ) CameraAngleZLocked = GetCameraAngleZ();
 		}
-		if (targetFunction->nameFull == "Camera.ChangeAngle" && vaild)
+		if (name == "camera.changeangle" && vaild)
 		{
 			SetCameraAngleX(GetCameraAngleX() + GetVariableFloat(&targetFunction->parameter[0]));
 			SetCameraAngleY(GetCameraAngleY() + GetVariableFloat(&targetFunction->parameter[1]));
@@ -349,22 +352,22 @@ EXTERN_DLL_EXPORT void ExecuteDebugFunction(DebugFunction* targetFunction)
 			if (LockCameraAngleY) CameraAngleYLocked = GetCameraAngleY();
 			if (LockCameraAngleZ) CameraAngleZLocked = GetCameraAngleZ();
 		}
-		if (targetFunction->nameFull == "Camera.ChangeAngleX" && vaild)
+		if (name == "camera.changeanglex" && vaild)
 		{
 			SetCameraAngleX(GetCameraAngleX() + GetVariableFloat(&targetFunction->parameter[0]));
 			if (LockCameraAngleX) CameraAngleXLocked = GetCameraAngleX();
 		}
-		if (targetFunction->nameFull == "Camera.ChangeAngleY" && vaild)
+		if (name == "camera.changeangley" && vaild)
 		{
 			SetCameraAngleY(GetCameraAngleY() + GetVariableFloat(&targetFunction->parameter[0]));
 			if (LockCameraAngleY) CameraAngleYLocked = GetCameraAngleY();
 		}
-		if (targetFunction->nameFull == "Camera.ChangeAngleZ" && vaild)
+		if (name == "camera.changeanglez" && vaild)
 		{
 			SetCameraAngleZ(GetCameraAngleZ() + GetVariableFloat(&targetFunction->parameter[0]));
 			if (LockCameraAngleZ) CameraAngleZLocked = GetCameraAngleZ();
 		}
-		if (targetFunction->nameFull == "Camera.LockAngle")
+		if (name == "camera.lockangle")
 		{
 			bool trigger = !LockCameraAngles;
 			if (vaild)
@@ -382,38 +385,38 @@ EXTERN_DLL_EXPORT void ExecuteDebugFunction(DebugFunction* targetFunction)
 				CameraAngleZLocked = GetCameraAngleZ();
 			}
 		}
-		if (targetFunction->nameFull == "Camera.LockAngleX")
+		if (name == "camera.lockanglex")
 		{
 			bool triggerX = !LockCameraAngleX;
 			if (vaild) triggerX = GetVariableBool(&targetFunction->parameter[0]);
 			LockCameraAngleX = triggerX;
 			if (triggerX) CameraAngleXLocked = GetCameraAngleX();
 		}
-		if (targetFunction->nameFull == "Camera.LockAngleY")
+		if (name == "camera.lockangley")
 		{
 			bool triggerY = !LockCameraAngleY;
 			if (vaild) triggerY = GetVariableBool(&targetFunction->parameter[0]);
 			LockCameraAngleY = triggerY;
 			if (triggerY) CameraAngleYLocked = GetCameraAngleY();
 		}
-		if (targetFunction->nameFull == "Camera.LockAngleZ")
+		if (name == "camera.lockanglez")
 		{
 			bool triggerZ = !LockCameraAngleZ;
 			if (vaild) triggerZ = GetVariableBool(&targetFunction->parameter[0]);
 			LockCameraAngleZ = triggerZ;
 			if (triggerZ) CameraAngleZLocked = GetCameraAngleZ();
 		}
-		if (targetFunction->nameFull == "Camera.SetZoom" && vaild)
+		if (name == "camera.setzoom" && vaild)
 		{
 			SetCameraZoom(GetVariableFloat(&targetFunction->parameter[0]));
 			if (LockCameraZoom) CameraZoomLocked = GetCameraZoom();
 		}
-		if (targetFunction->nameFull == "Camera.ChangeZoom" && vaild)
+		if (name == "camera.changezoom" && vaild)
 		{
 			SetCameraZoom(GetCameraZoom() + GetVariableFloat(&targetFunction->parameter[0]));
 			if (LockCameraZoom) CameraZoomLocked = GetCameraZoom();
 		}
-		if (targetFunction->nameFull == "Camera.LockZoom")
+		if (name == "camera.lockzoom")
 		{
 			bool triggerX = !LockCameraZoom;
 			if (vaild) triggerX = GetVariableBool(&targetFunction->parameter[0]);
@@ -425,14 +428,14 @@ EXTERN_DLL_EXPORT void ExecuteDebugFunction(DebugFunction* targetFunction)
 
 	if (IsGameGlobalsInstance())
 	{
-		if (targetFunction->nameFull == "Objects.SetObjectsCounter" && vaild)
+		if (name == "objects.setobjectscounter" && vaild)
 		{
 			SetAllObjects(GetVariableInt32(&targetFunction->parameter[0]));
 		}
 	}
 
 	// Game
-	if (targetFunction->nameFull == "Game.SetGamePaused")
+	if (name == "game.setgamepaused")
 	{
 		if (vaild) DbgWriteBool(IsGamePausedAddress, GetVariableBool(&targetFunction->parameter[0]));
 		else DbgWriteBool(IsGamePausedAddress, !DbgReadBool(IsGamePausedAddress));

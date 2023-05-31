@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "xNyuLibrary.h"
 
-EXTERN_DLL_EXPORT void __cdecl OnInitDebugMod(DebugSettings _globalSettings, DebugFeatures* _features, void* _logger, void* _drawRectangle, void* _drawText, void* _TASRoutine)
+EXTERN_DLL_EXPORT void __cdecl OnInitDebugMod(DebugSettings _globalSettings, DebugFeatures* _features, DebugReferences _references)
 {
 	//
 	// Standard initialization sequence, copy all debugaddress/function if needed, take settings and loggger and draw funtion pointers
@@ -10,19 +10,22 @@ EXTERN_DLL_EXPORT void __cdecl OnInitDebugMod(DebugSettings _globalSettings, Deb
 
 	GlobalSettings = _globalSettings;
 
-	pDebugConsoleOutput = (DebugConsoleOutputT)_logger;
-	pDebugDrawRectangle = (DebugDrawRectangleT)_drawRectangle;
-	pDebugDrawText = (DebugDrawTextT)_drawText;
+	pDebugConsoleOutput = (DebugConsoleOutputT)_references.logger;
+	pDebugDrawRectangle = (DebugDrawRectangleT)_references.drawRectangle;
+	pDebugDrawText = (DebugDrawTextT)_references.drawText;
+
+	pInstallGraphicHook = (InstallGraphicHookT)_references.installGraphicsHook;
+	pRemoveGraphicHook = (RemoveGraphicHookT)_references.removeGraphicsHook;
 
 	DebugFeatures features;
 	features.debugAddress = true;
 	features.debugFunction = true;
 	features.savefileEditor = true;
-	features.supervision = false;
+	features.supervision = true;
 
 	std::memcpy(_features, &features, sizeof(DebugFeatures));
 
-	pTASRoutine = (TASRoutineT) _TASRoutine;
+	pTASRoutine = (TASRoutineT)_references.TASRoutine;
 	
 	if (GlobalSettings.config_version == "v1.0")
 	{

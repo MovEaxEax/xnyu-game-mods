@@ -13,77 +13,76 @@ void* pointerBuffer;
 
 EXTERN_DLL_EXPORT void SetDebugAddressValue(DebugAddress* targetAddress)
 {
+	std::string name = targetAddress->nameFull;
+	std::transform(name.begin(), name.end(), name.begin(), ::tolower);
+
 	if (IsPlayerObjectInstance())
 	{
-		if (targetAddress->nameFull == "Player.Position-X") SetPlayerPositionX(GetVariableFloat(&targetAddress->value));
-		if (targetAddress->nameFull == "Player.Position-Y") SetPlayerPositionY(GetVariableFloat(&targetAddress->value));
-		if (targetAddress->nameFull == "Player.Position-Z") SetPlayerPositionZ(GetVariableFloat(&targetAddress->value));
-		if (targetAddress->nameFull == "Player.Direction") SetPlayerDirection(GetVariableFloat(&targetAddress->value));
-		if (targetAddress->nameFull == "Player.Energy") SetPlayerEnergy(GetVariableInt32(&targetAddress->value));
-		if (targetAddress->nameFull == "Player.HP") SetPlayerHP(GetVariableInt32(&targetAddress->value));
-		if (targetAddress->nameFull == "Player.SpellcardBar") SetPlayerSpellcardBar(GetVariableInt32(&targetAddress->value));
-		if (targetAddress->nameFull == "Player.SpeedFactor-X") SetPlayerSpeedFactorX(GetVariableFloat(&targetAddress->value));
-		if (targetAddress->nameFull == "Player.SpeedFactor-Y") SetPlayerSpeedFactorY(GetVariableFloat(&targetAddress->value));
-		if (targetAddress->nameFull == "Player.SpeedFactor-Z") SetPlayerSpeedFactorZ(GetVariableFloat(&targetAddress->value));
-		if (targetAddress->nameFull == "Player.AnimationIndex") SetPlayerAnimationIndex(GetVariableInt32(&targetAddress->value));
+		if (name == "player.position-x") SetPlayerPositionX(GetVariableFloat(&targetAddress->value));
+		if (name == "player.position-y") SetPlayerPositionY(GetVariableFloat(&targetAddress->value));
+		if (name == "player.position-z") SetPlayerPositionZ(GetVariableFloat(&targetAddress->value));
+		if (name == "player.direction") SetPlayerDirection(GetVariableFloat(&targetAddress->value));
+		if (name == "player.energy") SetPlayerEnergy(GetVariableInt32(&targetAddress->value));
+		if (name == "player.hp") SetPlayerHP(GetVariableInt32(&targetAddress->value));
+		if (name == "player.spellcardbar") SetPlayerSpellcardBar(GetVariableInt32(&targetAddress->value));
+		if (name == "player.speedfactor-x") SetPlayerSpeedFactorX(GetVariableFloat(&targetAddress->value));
+		if (name == "player.speedfactor-y") SetPlayerSpeedFactorY(GetVariableFloat(&targetAddress->value));
+		if (name == "player.speedfactor-z") SetPlayerSpeedFactorZ(GetVariableFloat(&targetAddress->value));
+		if (name == "player.animationindex") SetPlayerAnimationIndex(GetVariableInt32(&targetAddress->value));
 	}
 	if (IsCameraObjectInstance())
 	{
-		if (targetAddress->nameFull == "Camera.Position-X") SetCameraPositionX(GetVariableFloat(&targetAddress->value));
-		if (targetAddress->nameFull == "Camera.Position-Y") SetCameraPositionY(GetVariableFloat(&targetAddress->value));
-		if (targetAddress->nameFull == "Camera.Position-Z") SetCameraPositionZ(GetVariableFloat(&targetAddress->value));
-		if (targetAddress->nameFull == "Camera.Angle-X") SetCameraAngleX(GetVariableFloat(&targetAddress->value));
-		if (targetAddress->nameFull == "Camera.Angle-Y") SetCameraAngleY(GetVariableFloat(&targetAddress->value));
-		if (targetAddress->nameFull == "Camera.Angle-Z") SetCameraAngleZ(GetVariableFloat(&targetAddress->value));
-		if (targetAddress->nameFull == "Camera.Zoom") SetCameraZoom(GetVariableFloat(&targetAddress->value));
+		if (name == "camera.position-x") SetCameraPositionX(GetVariableFloat(&targetAddress->value));
+		if (name == "camera.position-y") SetCameraPositionY(GetVariableFloat(&targetAddress->value));
+		if (name == "camera.position-z") SetCameraPositionZ(GetVariableFloat(&targetAddress->value));
+		if (name == "camera.angle-x") SetCameraAngleX(GetVariableFloat(&targetAddress->value));
+		if (name == "camera.angle-y") SetCameraAngleY(GetVariableFloat(&targetAddress->value));
+		if (name == "camera.angle-z") SetCameraAngleZ(GetVariableFloat(&targetAddress->value));
+		if (name == "camera.zoom") SetCameraZoom(GetVariableFloat(&targetAddress->value));
 	}
 	if (IsGameGlobalsInstance())
 	{
-		if (targetAddress->nameFull == "Objects.ObjectsCounter") SetAllObjects(GetVariableInt32(&targetAddress->value));
+		if (name == "objects.objectscounter") SetAllObjects(GetVariableInt32(&targetAddress->value));
 	}
-	if (targetAddress->nameFull == "Game.IsGamePaused") DbgWriteBool(IsGamePausedAddress, GetVariableBool(&targetAddress->value));
+	if (name == "game.isgamepaused") DbgWriteBool(IsGamePausedAddress, GetVariableBool(&targetAddress->value));
 
 }
 
 EXTERN_DLL_EXPORT void GetDebugAddressValue(DebugAddress* targetAddress)
 {
+	std::string name = targetAddress->nameFull;
+	std::transform(name.begin(), name.end(), name.begin(), ::tolower);
+
 	SetVariable(&targetAddress->value, "none");
 	if (IsPlayerObjectInstance())
 	{
-		if (targetAddress->nameFull == "Player.Position-X") SetVariable(&targetAddress->value, GetPlayerPositionX());
-		if (targetAddress->nameFull == "Player.Position-Y") SetVariable(&targetAddress->value, GetPlayerPositionY());
-		if (targetAddress->nameFull == "Player.Position-Z") SetVariable(&targetAddress->value, GetPlayerPositionZ());
-		if (targetAddress->nameFull == "Player.Direction") SetVariable(&targetAddress->value, GetPlayerDirection());
-		if (targetAddress->nameFull == "Player.Energy") SetVariable(&targetAddress->value, GetPlayerEnergy());
-		if (targetAddress->nameFull == "Player.HP") SetVariable(&targetAddress->value, GetPlayerHP());
-		if (targetAddress->nameFull == "Player.SpellcardBar") SetVariable(&targetAddress->value, GetPlayerSpellcardBar());
-		if (targetAddress->nameFull == "Player.SpeedFactor-X") SetVariable(&targetAddress->value, GetPlayerSpeedFactorX());
-		if (targetAddress->nameFull == "Player.SpeedFactor-Y") SetVariable(&targetAddress->value, GetPlayerSpeedFactorY());
-		if (targetAddress->nameFull == "Player.SpeedFactor-Z") SetVariable(&targetAddress->value, GetPlayerSpeedFactorZ());
-		if (targetAddress->nameFull == "Player.AnimationIndex")
-		{
-			SetVariable(&targetAddress->value, GetPlayerAnimationIndex());
-		}
+		if (name == "player.position-x") SetVariable(&targetAddress->value, GetPlayerPositionX());
+		if (name == "player.position-y") SetVariable(&targetAddress->value, GetPlayerPositionY());
+		if (name == "player.position-z") SetVariable(&targetAddress->value, GetPlayerPositionZ());
+		if (name == "player.direction") SetVariable(&targetAddress->value, GetPlayerDirection());
+		if (name == "player.energy") SetVariable(&targetAddress->value, GetPlayerEnergy());
+		if (name == "player.hp") SetVariable(&targetAddress->value, GetPlayerHP());
+		if (name == "player.spellcardbar") SetVariable(&targetAddress->value, GetPlayerSpellcardBar());
+		if (name == "player.speedfactor-x") SetVariable(&targetAddress->value, GetPlayerSpeedFactorX());
+		if (name == "player.speedfactor-y") SetVariable(&targetAddress->value, GetPlayerSpeedFactorY());
+		if (name == "player.speedfactor-z") SetVariable(&targetAddress->value, GetPlayerSpeedFactorZ());
+		if (name == "player.animationindex") SetVariable(&targetAddress->value, GetPlayerAnimationIndex());
 	}
 	if (IsCameraObjectInstance())
 	{
-		if (targetAddress->nameFull == "Camera.Position-X")
-		{
-			SetVariable(&targetAddress->value, GetCameraPositionX());
-			std::cout << std::dec << GetCameraPositionX() << std::endl;
-		}
-		if (targetAddress->nameFull == "Camera.Position-Y") SetVariable(&targetAddress->value, GetCameraPositionY());
-		if (targetAddress->nameFull == "Camera.Position-Z") SetVariable(&targetAddress->value, GetCameraPositionZ());
-		if (targetAddress->nameFull == "Camera.Angle-X") SetVariable(&targetAddress->value, GetCameraAngleX());
-		if (targetAddress->nameFull == "Camera.Angle-Y") SetVariable(&targetAddress->value, GetCameraAngleY());
-		if (targetAddress->nameFull == "Camera.Angle-Z") SetVariable(&targetAddress->value, GetCameraAngleZ());
-		if (targetAddress->nameFull == "Camera.Zoom") SetVariable(&targetAddress->value, GetCameraZoom());
+		if (name == "camera.position-x") SetVariable(&targetAddress->value, GetCameraPositionX());
+		if (name == "camera.position-y") SetVariable(&targetAddress->value, GetCameraPositionY());
+		if (name == "camera.position-z") SetVariable(&targetAddress->value, GetCameraPositionZ());
+		if (name == "camera.angle-x") SetVariable(&targetAddress->value, GetCameraAngleX());
+		if (name == "camera.angle-y") SetVariable(&targetAddress->value, GetCameraAngleY());
+		if (name == "camera.angle-z") SetVariable(&targetAddress->value, GetCameraAngleZ());
+		if (name == "camera.zoom") SetVariable(&targetAddress->value, GetCameraZoom());
 	}
 	if (IsGameGlobalsInstance())
 	{
-		if (targetAddress->nameFull == "Objects.ObjectsCounter") SetVariable(&targetAddress->value, GetAllObjects());
+		if (name == "objects.objectscounter") SetVariable(&targetAddress->value, GetAllObjects());
 	}
-	if (targetAddress->nameFull == "Game.IsGamePaused") SetVariable(&targetAddress->value, DbgReadBool(IsGamePausedAddress));
+	if (name == "game.isgamepaused") SetVariable(&targetAddress->value, DbgReadBool(IsGamePausedAddress));
 
 
 }

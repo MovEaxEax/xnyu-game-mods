@@ -161,6 +161,7 @@
     <ClInclude Include="GameGlobalsV2.h" />
     <ClInclude Include="GameGlobalsV1.h" />
     <ClInclude Include="DebugFunctionsGlobals.h" />
+    <ClInclude Include="GraphicsHook.h" />
     <ClInclude Include="SavefileV1.h" />
     <ClInclude Include="KengekiObjects.h" />
     <ClInclude Include="PlayerObjectV1.h" />

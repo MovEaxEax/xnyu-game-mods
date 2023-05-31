@@ -240,6 +240,16 @@ struct DebugFeatures
     bool supervision;
 };
 
+struct DebugReferences
+{
+    void* logger;
+    void* drawRectangle;
+    void* drawText;
+    void* TASRoutine;
+    void* installGraphicsHook;
+    void* removeGraphicsHook;
+};
+
 std::string GetAppDataPath() {
     TCHAR path[MAX_PATH];
     if (SHGetFolderPathW(NULL, CSIDL_APPDATA, NULL, 0, path) == MB_OK) {
@@ -253,6 +263,7 @@ std::string AppdataRoamingPath = GetAppDataPath();
 HMODULE GameBaseAddress = GetModuleHandle(NULL);
 
 // After includes
+#include "GraphicsHook.h"
 #include "PlayerObjectV1.h"
 #include "CameraObjectV1.h"
 #include "GameGlobalsV1.h"

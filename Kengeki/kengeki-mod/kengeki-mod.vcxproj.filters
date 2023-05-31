@@ -78,9 +78,6 @@
     <ClInclude Include="SavefileEditor.h">
       <Filter>Headerdateien\features</Filter>
     </ClInclude>
-    <ClInclude Include="Supervision.h">
-      <Filter>Headerdateien\features</Filter>
-    </ClInclude>
     <ClInclude Include="DebugAddressesV1.h">
       <Filter>Headerdateien\v1</Filter>
     </ClInclude>
@@ -131,6 +128,12 @@
     </ClInclude>
     <ClInclude Include="SavefileV2.h">
       <Filter>Headerdateien\v2\structs</Filter>
+    </ClInclude>
+    <ClInclude Include="Supervision.h">
+      <Filter>Headerdateien\features</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphicsHook.h">
+      <Filter>Headerdateien\features</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
