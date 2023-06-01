@@ -21,7 +21,7 @@ EXTERN_DLL_EXPORT void __cdecl OnInitDebugMod(DebugSettings _globalSettings, Deb
 	features.debugAddress = true;
 	features.debugFunction = true;
 	features.savefileEditor = true;
-	features.supervision = true;
+	features.supervision = false;
 
 	std::memcpy(_features, &features, sizeof(DebugFeatures));
 
