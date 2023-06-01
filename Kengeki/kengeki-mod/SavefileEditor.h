@@ -27,7 +27,7 @@ EXTERN_DLL_EXPORT void __cdecl GetSavefiles(char* saveFilesBuffer)
 
     if (file.length() > 0)
     {
-        pDebugConsoleOutput(file, false, "purple");
+        pDebugConsoleOutput(file, true, "purple");
         std::memcpy(saveFilesBuffer, file.c_str(), file.length());
         char term = 0x00;
         std::memcpy(saveFilesBuffer + file.length(), &term, 1);

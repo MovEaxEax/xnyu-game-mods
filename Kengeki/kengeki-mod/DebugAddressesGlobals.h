@@ -15,6 +15,6 @@ struct DebugAddressParent {
 BasePointer PlayerObjectBasepointer;
 BasePointer CameraObjectBasepointer;
 BasePointer GameGlobalsBasepointer;
-BasePointer BossHP;
+BasePointer BossObjectBasepointer;
 
 void* IsGamePausedAddress;

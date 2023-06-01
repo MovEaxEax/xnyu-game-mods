@@ -44,6 +44,15 @@ EXTERN_DLL_EXPORT void SetDebugAddressValue(DebugAddress* targetAddress)
 	{
 		if (name == "objects.objectscounter") SetAllObjects(GetVariableInt32(&targetAddress->value));
 	}
+	if (IsBossObjectInstance())
+	{
+		if (name == "boss.position-x") SetBossPositionX(GetVariableFloat(&targetAddress->value));
+		if (name == "boss.position-y") SetBossPositionY(GetVariableFloat(&targetAddress->value));
+		if (name == "boss.position-z") SetBossPositionZ(GetVariableFloat(&targetAddress->value));
+		if (name == "boss.direction") SetBossDirection(GetVariableFloat(&targetAddress->value));
+		if (name == "boss.hp") SetBossHP(GetVariableInt32(&targetAddress->value));
+		if (name == "boss.animationindex") SetBossAnimationIndex(GetVariableInt32(&targetAddress->value));
+	}
 	if (name == "game.isgamepaused") DbgWriteBool(IsGamePausedAddress, GetVariableBool(&targetAddress->value));
 
 }
@@ -81,6 +90,15 @@ EXTERN_DLL_EXPORT void GetDebugAddressValue(DebugAddress* targetAddress)
 	if (IsGameGlobalsInstance())
 	{
 		if (name == "objects.objectscounter") SetVariable(&targetAddress->value, GetAllObjects());
+	}
+	if (IsBossObjectInstance())
+	{
+		if (name == "boss.position-x") SetVariable(&targetAddress->value, GetBossPositionX());
+		if (name == "boss.position-y") SetVariable(&targetAddress->value, GetBossPositionY());
+		if (name == "boss.position-z") SetVariable(&targetAddress->value, GetBossPositionZ());
+		if (name == "boss.direction") SetVariable(&targetAddress->value, GetBossDirection());
+		if (name == "boss.hp") SetVariable(&targetAddress->value, GetBossHP());
+		if (name == "boss.animationindex") SetVariable(&targetAddress->value, GetBossAnimationIndex());
 	}
 	if (name == "game.isgamepaused") SetVariable(&targetAddress->value, DbgReadBool(IsGamePausedAddress));
 

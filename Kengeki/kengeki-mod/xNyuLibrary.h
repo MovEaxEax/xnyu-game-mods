@@ -264,12 +264,15 @@ HMODULE GameBaseAddress = GetModuleHandle(NULL);
 
 // After includes
 #include "GraphicsHook.h"
+
 #include "PlayerObjectV1.h"
+#include "BossObjectV1.h"
 #include "CameraObjectV1.h"
 #include "GameGlobalsV1.h"
 #include "SavefileV1.h"
 
 #include "PlayerObjectV2.h"
+#include "BossObjectV2.h"
 #include "CameraObjectV2.h"
 #include "GameGlobalsV2.h"
 #include "SavefileV2.h"
@@ -296,6 +299,5 @@ HMODULE GameBaseAddress = GetModuleHandle(NULL);
 #include "DebugFunctions.h"
 #include "SavefileEditor.h"
 #include "Supervision.h"
-
 
 

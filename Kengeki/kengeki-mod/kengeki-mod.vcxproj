@@ -145,6 +145,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="BossObjectV1.h" />
+    <ClInclude Include="BossObjectV2.h" />
     <ClInclude Include="DebugAddressesGlobals.h" />
     <ClInclude Include="DebugFunctionsV2.h" />
     <ClInclude Include="framework.h" />

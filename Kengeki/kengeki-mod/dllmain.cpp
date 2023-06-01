@@ -50,6 +50,8 @@ EXTERN_DLL_EXPORT void OnFrameDebugMod()
 	SetCameraObjectInstance(pointerBuffer, boolBuffer);
 	boolBuffer = DbgReadPointer(GameGlobalsBasepointer, &pointerBuffer);
 	SetGameGlobalsInstance(pointerBuffer, boolBuffer);
+	boolBuffer = DbgReadPointer(BossObjectBasepointer, &pointerBuffer);
+	SetBossObjectInstance(pointerBuffer, boolBuffer);
 
 	if (IsPlayerObjectInstance())
 	{
@@ -84,6 +86,15 @@ EXTERN_DLL_EXPORT void OnFrameDebugMod()
 		if (LockCameraAngleY) SetCameraAngleY(CameraAngleYLocked);
 		if (LockCameraAngleZ) SetCameraAngleZ(CameraAngleZLocked);
 		if (LockCameraZoom) SetCameraZoom(CameraZoomLocked);
+	}
+
+	if (IsBossObjectInstance())
+	{
+		if (LockBossPositionX) SetBossPositionX(BossPositionXLocked);
+		if (LockBossPositionY) SetBossPositionY(BossPositionYLocked);
+		if (LockBossPositionZ) SetBossPositionZ(BossPositionZLocked);
+		if (LockBossDirection) SetBossDirection(BossDirectionLocked);
+		if (LockBossAnimationIndex) SetBossAnimationIndex(BossAnimationIndexLocked);
 	}
 
 	if (updateSettingsFrameskip >= 120)

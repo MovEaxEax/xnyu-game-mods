@@ -135,6 +135,12 @@
     <ClInclude Include="GraphicsHook.h">
       <Filter>Headerdateien\features</Filter>
     </ClInclude>
+    <ClInclude Include="BossObjectV1.h">
+      <Filter>Headerdateien\v1\structs</Filter>
+    </ClInclude>
+    <ClInclude Include="BossObjectV2.h">
+      <Filter>Headerdateien\v2\structs</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp">

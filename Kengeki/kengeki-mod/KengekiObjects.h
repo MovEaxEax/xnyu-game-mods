@@ -319,5 +319,150 @@ void SetAllObjects(int value)
 
 
 
+BossObjectV1* bossObjectV1;
+BossObjectV2* bossObjectV2;
+
+void SetBossObjectInstance(void* pointer, bool success)
+{
+	if (!success)
+	{
+		if (GlobalSettings.config_version == "v1.0") bossObjectV1 = (BossObjectV1*)0x00;
+		else bossObjectV2 = (BossObjectV2*)0x00;
+	}
+	else
+	{
+		if (GlobalSettings.config_version == "v1.0") bossObjectV1 = (BossObjectV1*)pointer;
+		else bossObjectV2 = (BossObjectV2*)pointer;
+	}
+}
+
+bool IsBossObjectInstance()
+{
+	if (GlobalSettings.config_version == "v1.0") return bossObjectV1 != 0x00;
+	else return bossObjectV2 != 0x00;
+}
+
+// Boss positions
+float GetBossPositionX()
+{
+	if (GlobalSettings.config_version == "v1.0") return bossObjectV1->PositionX;
+	else return bossObjectV2->PositionX;
+}
+
+void SetBossPositionX(float value)
+{
+	if (GlobalSettings.config_version == "v1.0") bossObjectV1->PositionX = value;
+	else bossObjectV2->PositionX = value;
+}
+
+float GetBossPositionY()
+{
+	if (GlobalSettings.config_version == "v1.0") return bossObjectV1->PositionY;
+	else return bossObjectV2->PositionY;
+}
+
+void SetBossPositionY(float value)
+{
+	if (GlobalSettings.config_version == "v1.0") bossObjectV1->PositionY = value;
+	else bossObjectV2->PositionY = value;
+}
+
+float GetBossPositionZ()
+{
+	if (GlobalSettings.config_version == "v1.0") return bossObjectV1->PositionZ;
+	else return bossObjectV2->PositionZ;
+}
+
+void SetBossPositionZ(float value)
+{
+	if (GlobalSettings.config_version == "v1.0") bossObjectV1->PositionZ = value;
+	else bossObjectV2->PositionZ = value;
+}
+
+float GetBossDirection()
+{
+	if (GlobalSettings.config_version == "v1.0") return atan2(bossObjectV1->AngleFactor1, bossObjectV1->AngleFactor2) * 360 / PI;
+	else return atan2(bossObjectV2->AngleFactor1, bossObjectV2->AngleFactor2) * 360 / PI;
+}
+
+void SetBossDirection(float value)
+{
+	float angleRadians = value * PI / 360;
+	float angleFactor1 = sin(angleRadians);
+	float angleFactor2 = cos(angleRadians);
+	if (GlobalSettings.config_version == "v1.0")
+	{
+		bossObjectV1->AngleFactor1 = angleFactor1;
+		bossObjectV1->AngleFactor1 = angleFactor2;
+	}
+	else
+	{
+		bossObjectV2->AngleFactor1 = angleFactor1;
+		bossObjectV2->AngleFactor1 = angleFactor2;
+	}
+}
+
+// HP
+int GetBossHP()
+{
+	if (GlobalSettings.config_version == "v1.0") return bossObjectV1->HPCurrent;
+	else return bossObjectV2->HPCurrent;
+}
+
+void SetBossHP(int value)
+{
+	if (GlobalSettings.config_version == "v1.0") bossObjectV1->HPCurrent = value;
+	else bossObjectV2->HPCurrent = value;
+}
+
+// Speedfactors
+float GetBossSpeedFactorX()
+{
+	if (GlobalSettings.config_version == "v1.0") return bossObjectV1->SpeedFactorX;
+	else return bossObjectV2->SpeedFactorX;
+}
+
+void SetBossSpeedFactorX(float value)
+{
+	if (GlobalSettings.config_version == "v1.0") bossObjectV1->SpeedFactorX = value;
+	else bossObjectV2->SpeedFactorX = value;
+}
+
+float GetBossSpeedFactorY()
+{
+	if (GlobalSettings.config_version == "v1.0") return bossObjectV1->SpeedFactorY;
+	else return bossObjectV2->SpeedFactorY;
+}
+
+void SetBossSpeedFactorY(float value)
+{
+	if (GlobalSettings.config_version == "v1.0") bossObjectV1->SpeedFactorY = value;
+	else bossObjectV2->SpeedFactorY = value;
+}
+
+float GetBossSpeedFactorZ()
+{
+	if (GlobalSettings.config_version == "v1.0") return bossObjectV1->SpeedFactorZ;
+	else return bossObjectV2->SpeedFactorZ;
+}
+
+void SetBossSpeedFactorZ(float value)
+{
+	if (GlobalSettings.config_version == "v1.0") bossObjectV1->SpeedFactorZ = value;
+	else bossObjectV2->SpeedFactorZ = value;
+}
+
+// Animations
+int GetBossAnimationIndex()
+{
+	if (GlobalSettings.config_version == "v1.0") return bossObjectV1->AnimationIndex;
+	else return bossObjectV2->AnimationIndex;
+}
+
+void SetBossAnimationIndex(int value)
+{
+	if (GlobalSettings.config_version == "v1.0") bossObjectV1->AnimationIndex = value;
+	else bossObjectV2->AnimationIndex = value;
+}
 
 

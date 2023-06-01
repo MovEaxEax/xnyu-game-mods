@@ -37,6 +37,19 @@ bool LockSpeedFactorY = false;
 bool LockSpeedFactorZ = false;
 bool LockAnimationIndex = false;
 
+float BossPositionXLocked = 0.0;
+float BossPositionYLocked = 0.0;
+float BossPositionZLocked = 0.0;
+float BossDirectionLocked = 0.0;
+int BossAnimationIndexLocked = 0.0;
+
+bool LockBossPositions = false;
+bool LockBossPositionX = false;
+bool LockBossPositionY = false;
+bool LockBossPositionZ = false;
+bool LockBossDirection = false;
+bool LockBossAnimationIndex = false;
+
 float CameraPositionXLocked = 0.0;
 float CameraPositionYLocked = 0.0;
 float CameraPositionZLocked = 0.0;
@@ -432,6 +445,117 @@ EXTERN_DLL_EXPORT void ExecuteDebugFunction(DebugFunction* targetFunction)
 		{
 			SetAllObjects(GetVariableInt32(&targetFunction->parameter[0]));
 		}
+	}
+
+	// Boss
+	if (IsBossObjectInstance())
+	{
+		if (name == "boss.setposition" && vaild)
+		{
+			SetBossPositionX(GetVariableFloat(&targetFunction->parameter[0]));
+			SetBossPositionY(GetVariableFloat(&targetFunction->parameter[1]));
+			SetBossPositionZ(GetVariableFloat(&targetFunction->parameter[2]));
+			if (LockBossPositionX) BossPositionXLocked = GetBossPositionX();
+			if (LockBossPositionY) BossPositionYLocked = GetBossPositionY();
+			if (LockBossPositionZ) BossPositionZLocked = GetBossPositionZ();
+		}
+		if (name == "boss.changePosition" && vaild)
+		{
+			SetBossPositionX(GetBossPositionX() + GetVariableFloat(&targetFunction->parameter[0]));
+			SetBossPositionY(GetBossPositionY() + GetVariableFloat(&targetFunction->parameter[1]));
+			SetBossPositionZ(GetBossPositionZ() + GetVariableFloat(&targetFunction->parameter[2]));
+			if (LockBossPositionX) BossPositionXLocked = GetBossPositionX();
+			if (LockBossPositionY) BossPositionYLocked = GetBossPositionY();
+			if (LockBossPositionZ) BossPositionZLocked = GetBossPositionZ();
+		}
+		if (name == "boss.changepositionx" && vaild)
+		{
+			SetBossPositionX(GetBossPositionX() + GetVariableFloat(&targetFunction->parameter[0]));
+			if (LockBossPositionX) BossPositionXLocked = GetBossPositionX();
+		}
+		if (name == "boss.changepositiony" && vaild)
+		{
+			SetBossPositionY(GetBossPositionY() + GetVariableFloat(&targetFunction->parameter[0]));
+			if (LockBossPositionY) BossPositionYLocked = GetBossPositionY();
+		}
+		if (name == "boss.changepositionz" && vaild)
+		{
+			SetBossPositionZ(GetBossPositionZ() + GetVariableFloat(&targetFunction->parameter[0]));
+			if (LockBossPositionZ) BossPositionZLocked = GetBossPositionZ();
+		}
+		if (name == "boss.sethp" && vaild) SetBossHP(GetVariableInt32(&targetFunction->parameter[0]));
+		if (name == "boss.setanimationindex" && vaild)
+		{
+			SetBossAnimationIndex(GetVariableInt32(&targetFunction->parameter[0]));
+			if (LockAnimationIndex) BossAnimationIndexLocked = GetBossAnimationIndex();
+		}
+		if (name == "boss.setdirection" && vaild)
+		{
+			SetBossDirection(GetVariableFloat(&targetFunction->parameter[0]));
+			if (LockBossDirection) BossDirectionLocked = GetBossDirection();
+		}
+		if (name == "boss.changedirection" && vaild)
+		{
+			SetBossDirection(GetBossDirection() + GetVariableFloat(&targetFunction->parameter[0]));
+			if (LockBossDirection) BossDirectionLocked = GetBossDirection();
+		}
+
+		if (name == "boss.lockposition")
+		{
+			bool trigger = !LockBossPositions;
+			if (vaild)
+			{
+				trigger = GetVariableBool(&targetFunction->parameter[0]);
+			}
+			LockBossPositions = trigger;
+			LockBossPositionX = trigger;
+			LockBossPositionY = trigger;
+			LockBossPositionZ = trigger;
+			if (trigger)
+			{
+				BossPositionXLocked = GetBossPositionX();
+				BossPositionYLocked = GetBossPositionY();
+				BossPositionZLocked = GetBossPositionZ();
+			}
+		}
+		if (name == "boss.lockpositionx")
+		{
+			bool triggerX = !LockBossPositionX;
+			if (vaild) triggerX = GetVariableBool(&targetFunction->parameter[0]);
+			LockBossPositionX = triggerX;
+			if (triggerX) BossPositionXLocked = GetBossPositionX();
+		}
+		if (name == "boss.lockpositiony")
+		{
+			bool triggerY = !LockBossPositionY;
+			if (vaild) triggerY = GetVariableBool(&targetFunction->parameter[0]);
+			LockBossPositionY = triggerY;
+			if (triggerY) BossPositionYLocked = GetBossPositionY();
+		}
+		if (name == "boss.lockpositionz")
+		{
+			bool triggerZ = !LockBossPositionZ;
+			if (vaild) triggerZ = GetVariableBool(&targetFunction->parameter[0]);
+			LockBossPositionZ = triggerZ;
+			if (triggerZ) BossPositionZLocked = GetBossPositionZ();
+		}
+
+		if (name == "boss.lockdirection")
+		{
+			bool trigger = !LockBossDirection;
+			if (vaild) trigger = GetVariableBool(&targetFunction->parameter[0]);
+			LockBossDirection = trigger;
+			if (trigger) BossDirectionLocked = GetBossDirection();
+		}
+
+		if (name == "boss.lockanimationindex")
+		{
+			bool trigger = !LockBossAnimationIndex;
+			if (vaild) trigger = GetVariableBool(&targetFunction->parameter[0]);
+			LockBossAnimationIndex = trigger;
+			if (trigger) BossAnimationIndexLocked = GetBossAnimationIndex();
+		}
+
 	}
 
 	// Game

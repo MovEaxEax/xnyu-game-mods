@@ -1,6 +1,6 @@
 #pragma once
 
-struct PlayerObjectV2
+struct BossObjectV1
 {
 	int unknown_0000;
 	int unknown_0004;
@@ -258,11 +258,11 @@ struct PlayerObjectV2
 	int unknown_03F4;
 	int unknown_03F8;
 	int unknown_03FC;
-	int unknown_0400;
-	int unknown_0404;
 	int EnergyCurrent;
-	int unknown_040C;
+	int unknown_0404;
 	int SpellcardBar;
+	int unknown_040C;
+	int unknown_0410;
 	int unknown_0414;
 	int unknown_0418;
 	int unknown_041C;
