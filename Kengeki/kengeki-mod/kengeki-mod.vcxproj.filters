@@ -141,6 +141,12 @@
     <ClInclude Include="BossObjectV2.h">
       <Filter>Headerdateien\v2\structs</Filter>
     </ClInclude>
+    <ClInclude Include="EditorMode.h">
+      <Filter>Headerdateien\features</Filter>
+    </ClInclude>
+    <ClInclude Include="Settings.h">
+      <Filter>Headerdateien\essentials</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp">

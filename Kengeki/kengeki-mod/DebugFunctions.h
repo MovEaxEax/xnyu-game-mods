@@ -4,7 +4,9 @@ struct DebugFunction {
     std::string nameParent;
     std::string nameChild;
     std::string nameFull;
-    bool rapid;
+	std::vector<std::string> description;
+	std::string placeholder;
+	bool rapid;
     std::vector<Variable> parameter;
 };
 
@@ -487,7 +489,7 @@ EXTERN_DLL_EXPORT void ExecuteDebugFunction(DebugFunction* targetFunction)
 		if (name == "boss.setanimationindex" && vaild)
 		{
 			SetBossAnimationIndex(GetVariableInt32(&targetFunction->parameter[0]));
-			if (LockAnimationIndex) BossAnimationIndexLocked = GetBossAnimationIndex();
+			if (LockBossAnimationIndex) BossAnimationIndexLocked = GetBossAnimationIndex();
 		}
 		if (name == "boss.setdirection" && vaild)
 		{

@@ -22,6 +22,7 @@ EXTERN_DLL_EXPORT void __cdecl OnInitDebugMod(DebugSettings _globalSettings, Deb
 	features.debugFunction = true;
 	features.savefileEditor = true;
 	features.supervision = false;
+	features.editorMode = false;
 
 	std::memcpy(_features, &features, sizeof(DebugFeatures));
 
@@ -40,6 +41,21 @@ EXTERN_DLL_EXPORT void __cdecl OnInitDebugMod(DebugSettings _globalSettings, Deb
 	}
 
 	GetMemoryRegions(memoryRegionsStart, memoryRegionsEnd, &memoryRegionsCounter);
+}
+
+bool originalPaused = false;
+EXTERN_DLL_EXPORT void OnDebugMenu(bool isEnabled)
+{
+	// Pause game if debug menu is showing up
+	if (isEnabled)
+	{
+		originalPaused = DbgReadBool(IsGamePausedAddress);
+		DbgWriteBool(IsGamePausedAddress, true);
+	}
+	else
+	{
+		DbgWriteBool(IsGamePausedAddress, originalPaused);
+	}
 }
 
 EXTERN_DLL_EXPORT void OnFrameDebugMod()

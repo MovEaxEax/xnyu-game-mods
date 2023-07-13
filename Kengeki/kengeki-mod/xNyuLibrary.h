@@ -223,6 +223,8 @@ struct DebugSettings {
     std::string config_debugmod_directory;
     std::string config_debugfunction_directory;
     std::string config_debugaddress_directory;
+    std::string config_editormode_directory;
+    std::string config_supervision_directory;
     std::string config_inputmapping_directory;
     std::string config_savefile_directory;
     std::string config_debugconfig_directory;
@@ -238,6 +240,7 @@ struct DebugFeatures
     bool debugFunction;
     bool savefileEditor;
     bool supervision;
+    bool editorMode;
 };
 
 struct DebugReferences
@@ -248,6 +251,12 @@ struct DebugReferences
     void* TASRoutine;
     void* installGraphicsHook;
     void* removeGraphicsHook;
+};
+
+struct Point
+{
+    float x;
+    float y;
 };
 
 std::string GetAppDataPath() {
@@ -286,6 +295,7 @@ HMODULE GameBaseAddress = GetModuleHandle(NULL);
 #include "WriteMemory.h"
 #include "SigScan.h"
 #include "Variables.h"
+#include "Settings.h"
 
 #include "DebugAddressesGlobals.h"
 #include "DebugAddressesV1.h"
@@ -299,5 +309,6 @@ HMODULE GameBaseAddress = GetModuleHandle(NULL);
 #include "DebugFunctions.h"
 #include "SavefileEditor.h"
 #include "Supervision.h"
+#include "EditorMode.h"
 
 

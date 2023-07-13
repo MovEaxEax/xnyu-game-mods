@@ -149,6 +149,7 @@
     <ClInclude Include="BossObjectV2.h" />
     <ClInclude Include="DebugAddressesGlobals.h" />
     <ClInclude Include="DebugFunctionsV2.h" />
+    <ClInclude Include="EditorMode.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="DebugAddresses.h" />
     <ClInclude Include="DebugFunctions.h" />
@@ -171,6 +172,7 @@
     <ClInclude Include="ReadMemory.h" />
     <ClInclude Include="SavefileEditor.h" />
     <ClInclude Include="SavefileV2.h" />
+    <ClInclude Include="Settings.h" />
     <ClInclude Include="SigScan.h" />
     <ClInclude Include="Supervision.h" />
     <ClInclude Include="Typedefs.h" />
