@@ -22,6 +22,20 @@
 #include <limits>
 #include <shlobj.h>
 #include <mutex>
+#include <unordered_set>
+#include <Processthreadsapi.h>
+#pragma comment(lib, "Kernel32.lib")
+
+#define SUBHOOK_STATIC
+#include <subhook.h>
+#include "subhook.c"
+
+#include <d3d9.h>
+#include <d3dx9.h>
+#pragma comment (lib, "d3d9.lib")
+#pragma comment (lib, "d3dx9.lib")
+#include <DXErr.h>
+#pragma comment(lib, "DXErr.lib")
 
 #define PI 3.14159265
 
@@ -82,59 +96,16 @@ DWORD GetTextSectionBaseAddress(HMODULE moduleHandle, std::string sectionName) {
     return NULL;
 }
 
-void SuspendOtherThreads() {
-    DWORD currentThreadId = GetCurrentThreadId();
-    HANDLE hThreadSnapshot = CreateToolhelp32Snapshot(TH32CS_SNAPTHREAD, 0);
-    if (hThreadSnapshot == INVALID_HANDLE_VALUE) {
-        return;
-    }
-
-    THREADENTRY32 threadEntry;
-    threadEntry.dwSize = sizeof(THREADENTRY32);
-
-    if (Thread32First(hThreadSnapshot, &threadEntry)) {
-        do {
-            if (threadEntry.th32OwnerProcessID == GetCurrentProcessId() &&
-                threadEntry.th32ThreadID != currentThreadId) {
-                HANDLE hThread = OpenThread(THREAD_SUSPEND_RESUME, FALSE, threadEntry.th32ThreadID);
-                if (hThread != NULL) {
-                    SuspendThread(hThread);
-                    CloseHandle(hThread);
-                }
-            }
-        } while (Thread32Next(hThreadSnapshot, &threadEntry));
-    }
-
-    CloseHandle(hThreadSnapshot);
-}
-
-void ResumeOtherThreads() {
-    DWORD currentThreadId = GetCurrentThreadId();
-    HANDLE hThreadSnapshot = CreateToolhelp32Snapshot(TH32CS_SNAPTHREAD, 0);
-    if (hThreadSnapshot == INVALID_HANDLE_VALUE) {
-        return;
-    }
-
-    THREADENTRY32 threadEntry;
-    threadEntry.dwSize = sizeof(THREADENTRY32);
-
-    if (Thread32First(hThreadSnapshot, &threadEntry)) {
-        do {
-            if (threadEntry.th32OwnerProcessID == GetCurrentProcessId() &&
-                threadEntry.th32ThreadID != currentThreadId) {
-                HANDLE hThread = OpenThread(THREAD_SUSPEND_RESUME, FALSE, threadEntry.th32ThreadID);
-                if (hThread != NULL) {
-                    ResumeThread(hThread);
-                    CloseHandle(hThread);
-                }
-            }
-        } while (Thread32Next(hThreadSnapshot, &threadEntry));
-    }
-
-    CloseHandle(hThreadSnapshot);
-}
-
-
+struct Vector3 {
+    union {
+        struct {
+            float x;
+            float z;
+            float y;
+        };
+        float arr[3];
+    };
+};
 
 typedef void(__stdcall* TASRoutineT)();
 TASRoutineT pTASRoutine = nullptr;
@@ -168,9 +139,6 @@ void GetMemoryRegions(uintptr_t* srcRegions, uintptr_t* dstRegions, int* count) 
         lpAddress = (LPVOID)((DWORD_PTR)memInfo.BaseAddress + memInfo.RegionSize);
     }
 
-    //srcRegions = new uintptr_t[Counter];
-    //dstRegions = new uintptr_t[Counter];
-
     Counter = 0;
     lpAddress = systemInfo.lpMinimumApplicationAddress;
     while (lpAddress < systemInfo.lpMaximumApplicationAddress) {
@@ -183,9 +151,8 @@ void GetMemoryRegions(uintptr_t* srcRegions, uintptr_t* dstRegions, int* count) 
         if (memInfo.Protect & (PAGE_READONLY | PAGE_READWRITE | PAGE_EXECUTE_READ | PAGE_EXECUTE_READWRITE)) {
             uintptr_t start = (uintptr_t)memInfo.BaseAddress;
             uintptr_t end = (uintptr_t)memInfo.BaseAddress + memInfo.RegionSize;
-            std::memcpy(srcRegions + (Counter * sizeof(uintptr_t)), &start, sizeof(uintptr_t));
-            std::memcpy(dstRegions + (Counter * sizeof(uintptr_t)), &end, sizeof(uintptr_t));
-            //std::cout << "Start: " << std::hex << srcRegions[Counter] << " | End: " << dstRegions[Counter] << std::endl;
+            std::memcpy(srcRegions + (Counter * sizeof(uintptr_t)), &start, sizeof(uintptr_t*));
+            std::memcpy(dstRegions + (Counter * sizeof(uintptr_t)), &end, sizeof(uintptr_t*));
             Counter++;
         }
 
@@ -223,7 +190,8 @@ struct DebugSettings {
     std::string config_debugmod_directory;
     std::string config_debugfunction_directory;
     std::string config_debugaddress_directory;
-    std::string config_editormode_directory;
+    std::string config_editormode_settings_directory;
+    std::string config_editormode_actions_directory;
     std::string config_supervision_directory;
     std::string config_inputmapping_directory;
     std::string config_savefile_directory;
@@ -272,6 +240,8 @@ std::string AppdataRoamingPath = GetAppDataPath();
 HMODULE GameBaseAddress = GetModuleHandle(NULL);
 
 // After includes
+#include "xNyuHook.h"
+#include "ThreadHooker.h"
 #include "GraphicsHook.h"
 
 #include "PlayerObjectV1.h"

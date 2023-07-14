@@ -147,6 +147,12 @@
     <ClInclude Include="Settings.h">
       <Filter>Headerdateien\essentials</Filter>
     </ClInclude>
+    <ClInclude Include="ThreadHooker.h">
+      <Filter>Headerdateien\essentials</Filter>
+    </ClInclude>
+    <ClInclude Include="xNyuHook.h">
+      <Filter>Headerdateien\essentials</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp">

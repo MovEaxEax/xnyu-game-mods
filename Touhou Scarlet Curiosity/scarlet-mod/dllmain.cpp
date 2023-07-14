@@ -20,9 +20,9 @@ EXTERN_DLL_EXPORT void __cdecl OnInitDebugMod(DebugSettings _globalSettings, Deb
 	DebugFeatures features;
 	features.debugAddress = true;
 	features.debugFunction = true;
-	features.savefileEditor = true;
+	features.savefileEditor = false;
 	features.supervision = false;
-	features.editorMode = true;
+	features.editorMode = false;
 
 	pThreadHookerGetThreadCount = (ThreadHookerGetThreadCountT)_threadReferences.ThreadHookerGetThreadCount;
 	pThreadHookerGetThreads = (ThreadHookerGetThreadsT)_threadReferences.ThreadHookerGetThreads;

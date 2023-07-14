@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "xNyuLibrary.h"
 
-EXTERN_DLL_EXPORT void __cdecl OnInitDebugMod(DebugSettings _globalSettings, DebugFeatures* _features, DebugReferences _references)
+EXTERN_DLL_EXPORT void __cdecl OnInitDebugMod(DebugSettings _globalSettings, DebugFeatures* _features, DebugReferences _references, ThreadReferences _threadReferences)
 {
 	//
 	// Standard initialization sequence, copy all debugaddress/function if needed, take settings and loggger and draw funtion pointers
@@ -23,6 +23,16 @@ EXTERN_DLL_EXPORT void __cdecl OnInitDebugMod(DebugSettings _globalSettings, Deb
 	features.savefileEditor = true;
 	features.supervision = false;
 	features.editorMode = false;
+
+	pThreadHookerGetThreadCount = (ThreadHookerGetThreadCountT)_threadReferences.ThreadHookerGetThreadCount;
+	pThreadHookerGetThreads = (ThreadHookerGetThreadsT)_threadReferences.ThreadHookerGetThreads;
+	pThreadHookerGetSafeThreadCount = (ThreadHookerGetSafeThreadCountT)_threadReferences.ThreadHookerGetSafeThreadCount;
+	pThreadHookerGetSafeThreads = (ThreadHookerGetSafeThreadsT)_threadReferences.ThreadHookerGetSafeThreads;
+	pThreadHookerSuspendThreads = (ThreadHookerSuspendThreadsT)_threadReferences.ThreadHookerSuspendThreads;
+	pThreadHookerResumeThreads = (ThreadHookerResumeThreadsT)_threadReferences.ThreadHookerResumeThreads;
+	pThreadHookerCreateThread = (ThreadHookerCreateThreadT)_threadReferences.ThreadHookerCreateThread;
+	pThreadHookerCreateRemoteThread = (ThreadHookerCreateRemoteThreadT)_threadReferences.ThreadHookerCreateRemoteThread;
+	pThreadHookerCreateRemoteThreadEx = (ThreadHookerCreateRemoteThreadExT)_threadReferences.ThreadHookerCreateRemoteThreadEx;
 
 	std::memcpy(_features, &features, sizeof(DebugFeatures));
 
@@ -60,6 +70,7 @@ EXTERN_DLL_EXPORT void OnDebugMenu(bool isEnabled)
 
 EXTERN_DLL_EXPORT void OnFrameDebugMod()
 {
+	pThreadHookerSuspendThreads(0);
 	boolBuffer = DbgReadPointer(PlayerObjectBasepointer, &pointerBuffer);
 	SetPlayerObjectInstance(pointerBuffer, boolBuffer);
 	boolBuffer = DbgReadPointer(CameraObjectBasepointer, &pointerBuffer);
@@ -68,6 +79,15 @@ EXTERN_DLL_EXPORT void OnFrameDebugMod()
 	SetGameGlobalsInstance(pointerBuffer, boolBuffer);
 	boolBuffer = DbgReadPointer(BossObjectBasepointer, &pointerBuffer);
 	SetBossObjectInstance(pointerBuffer, boolBuffer);
+	pThreadHookerResumeThreads(0);
+
+	// EditorMode Handling
+	if (EditorModeActivated)
+	{
+		canMove = false;
+		canRotate = false;
+		isRunning = false;
+	}
 
 	if (IsPlayerObjectInstance())
 	{

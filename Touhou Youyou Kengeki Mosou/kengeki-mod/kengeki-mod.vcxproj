@@ -72,7 +72,8 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(ProjectDir)\..\..\SharedDefinements\includes\x86\DXEffects;$(ProjectDir)\..\..\SharedDefinements\includes\x86\Microsoft DirectX SDK (June 2010);$(ProjectDir)\..\..\SharedDefinements\includes\x86\subhook;$(ProjectDir)\..\..\SharedDefinements\includes\x86\special</IncludePath>
+    <LibraryPath>$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86);$(ProjectDir)\..\..\SharedDefinements\libs\x86\Microsoft DirectX SDK (June 2010)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -175,10 +176,12 @@
     <ClInclude Include="Settings.h" />
     <ClInclude Include="SigScan.h" />
     <ClInclude Include="Supervision.h" />
+    <ClInclude Include="ThreadHooker.h" />
     <ClInclude Include="Typedefs.h" />
     <ClInclude Include="Variables.h" />
     <ClInclude Include="WriteMemory.h" />
     <ClInclude Include="xNyuDrawingEssentials.h" />
+    <ClInclude Include="xNyuHook.h" />
     <ClInclude Include="xNyuLibrary.h" />
     <ClInclude Include="pch.h" />
   </ItemGroup>
