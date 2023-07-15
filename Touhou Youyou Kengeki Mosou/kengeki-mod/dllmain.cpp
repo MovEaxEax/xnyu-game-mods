@@ -79,7 +79,6 @@ EXTERN_DLL_EXPORT void OnFrameDebugMod()
 	SetGameGlobalsInstance(pointerBuffer, boolBuffer);
 	boolBuffer = DbgReadPointer(BossObjectBasepointer, &pointerBuffer);
 	SetBossObjectInstance(pointerBuffer, boolBuffer);
-	pThreadHookerResumeThreads(0);
 
 	// EditorMode Handling
 	if (EditorModeActivated)
@@ -138,6 +137,7 @@ EXTERN_DLL_EXPORT void OnFrameDebugMod()
 		GetMemoryRegions(memoryRegionsStart, memoryRegionsEnd, &memoryRegionsCounter);
 		updateSettingsFrameskip = 0;
 	}
+	pThreadHookerResumeThreads(0);
 	updateSettingsFrameskip++;
 }
 
