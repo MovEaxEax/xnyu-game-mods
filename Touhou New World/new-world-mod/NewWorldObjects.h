@@ -20,7 +20,6 @@ void SetPlayerObjectInstance(void* pointer, bool success)
 
 bool IsPlayerObjectInstance()
 {
-	pDebugConsoleOutput("Version is: " + GlobalSettings.config_version, false, "red");
 	if (GlobalSettings.config_version == "V1.1.0") return playerObjectV110 != 0x00;
 }
 

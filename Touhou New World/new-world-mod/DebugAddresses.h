@@ -36,14 +36,11 @@ EXTERN_DLL_EXPORT void GetDebugAddressValue(DebugAddress* targetAddress)
 	std::transform(name.begin(), name.end(), name.begin(), ::tolower);
 
 	SetVariable(&targetAddress->value, "none");
-	pDebugConsoleOutput("Till here", false, "green");
 	if (IsPlayerObjectInstance())
 	{
-		pDebugConsoleOutput("Instance?", false, "green");
 		if (name == "player.position-x")
 		{
 			SetVariable(&targetAddress->value, GetPlayerPositionX());
-			pDebugConsoleOutput("VALUE: " + std::to_string(GetPlayerPositionX()), false, "green");
 		}
 		if (name == "player.position-y") SetVariable(&targetAddress->value, GetPlayerPositionY());
 		if (name == "player.position-z") SetVariable(&targetAddress->value, GetPlayerPositionZ());
