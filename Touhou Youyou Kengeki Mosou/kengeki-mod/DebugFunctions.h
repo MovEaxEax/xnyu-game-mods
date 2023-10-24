@@ -1,18 +1,19 @@
 #pragma once
 
 struct DebugFunction {
-    std::string nameParent;
-    std::string nameChild;
-    std::string nameFull;
+	std::string nameParent;
+	std::string nameChild;
+	std::string nameFull;
 	std::vector<std::string> description;
 	std::string placeholder;
 	bool rapid;
-    std::vector<Variable> parameter;
+	std::vector<Variable> parameter;
 };
 
 struct DebugFunctionParent {
-    std::string nameParent;
-    std::vector<DebugFunction> functions;
+	std::string nameParent;
+	std::vector<std::string> description;
+	std::vector<DebugFunction> functions;
 };
 
 std::vector<DebugFunctionParent> debugFunctions;
