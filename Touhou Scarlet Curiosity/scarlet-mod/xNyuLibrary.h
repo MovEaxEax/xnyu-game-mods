@@ -181,6 +181,8 @@ struct DebugSettings {
     std::string config_joystickdriver_get;
     std::string config_graphicdriver;
     std::string config_d3d9_hook;
+    std::string config_overclocker_hooks;
+    std::string config_winactive_hooks;
     bool config_rawinput_demand;
     std::string config_root_directory;
     std::string config_settings_directory;
